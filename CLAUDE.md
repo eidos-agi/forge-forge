@@ -31,6 +31,15 @@ Every forge has the "no software" guardrail. Every forge has a vision. Every for
 | `/forge-audit` | Audit a repo against the Forge Standard — structure, visionlog, anti-patterns |
 | `/forge-catalog` | List all forges in the ecosystem from the registry |
 | `/forge-sync` | Check which forges are cloned locally, provide clone commands for missing ones |
+| `/forge-enforce` | Read `.forge/manifest.yaml`, compare to reality, report drift, optionally fix |
+| `/forge-manifest-init` | Scaffold a `.forge/manifest.yaml` from current repo state |
+
+## Manifest Spec
+
+`.forge/manifest.yaml` declares the desired state for a repo. Forge skills enforce it by detecting drift.
+- Spec: `spec/manifest-v1.yaml`
+- Baseline defaults: `defaults/baseline.yaml`
+- Enforcement model: Terraform-inspired (desired state → observed state → plan → apply)
 
 ## Registry
 
@@ -41,4 +50,5 @@ Every forge has the "no software" guardrail. Every forge has a vision. Every for
 - **foss-forge** — open-source standards and marketing for agentic software
 - **demo-forge** — AI-generated demos (GIFs, SVGs, screenshots, diagrams)
 - **security-forge** — security auditing and agentic threat modeling
+- **ship-forge** — shipping standards, CI/CD, QA, deployment
 - **test-forge** — testing standards and test generation

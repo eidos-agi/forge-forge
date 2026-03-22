@@ -12,6 +12,8 @@ forges:
       - forge-audit: Audit a forge against the Forge Standard
       - forge-catalog: List all forges in the ecosystem
       - forge-sync: Ensure all forges are cloned locally
+      - forge-enforce: Enforce manifest desired state (detect drift, plan, apply)
+      - forge-manifest-init: Scaffold a .forge/manifest.yaml from current repo state
 
   - name: foss-forge
     type: knowledge
