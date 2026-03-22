@@ -30,6 +30,7 @@ Every forge has the "no software" guardrail. Every forge has a vision. Every for
 | `/forge-init` | Scaffold a new forge with visionlog, guardrails, skills dir, templates, GitHub repo |
 | `/forge-audit` | Audit a repo against the Forge Standard — structure, visionlog, anti-patterns |
 | `/forge-catalog` | List all forges in the ecosystem from the registry |
+| `/forge-sync` | Check which forges are cloned locally, provide clone commands for missing ones |
 
 ## Registry
 

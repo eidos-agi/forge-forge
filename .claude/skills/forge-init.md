@@ -41,6 +41,15 @@ Create the directories and files:
 
 1. `mkdir -p ~/repos-eidos-agi/<forge-name>/.claude/skills ~/repos-eidos-agi/<forge-name>/templates`
 2. `cd ~/repos-eidos-agi/<forge-name> && git init && git branch -m main`
+3. Create a `.gitignore` with minimal ignores for a forge:
+   ```
+   .DS_Store
+   *.swp
+   *.swo
+   *~
+   .idea/
+   .vscode/
+   ```
 
 ### Step 2: Initialize Visionlog
 

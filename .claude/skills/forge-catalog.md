@@ -9,8 +9,11 @@ User says `/forge-catalog` or asks to list, show, or browse available forges.
 ## Instructions
 
 1. Read the forge registry at `~/repos-eidos-agi/forge-forge/registry.yaml`
-2. For each forge, display its details in a table
-3. Optionally check which forges are cloned locally (exist at `~/repos-eidos-agi/<name>/`)
+2. For each forge:
+   - Count the number of skills listed
+   - Check if cloned locally (does `~/repos-eidos-agi/<name>/` exist?)
+   - Display in a summary table
+3. Show total skill count across the ecosystem
 
 ## Output Format
 

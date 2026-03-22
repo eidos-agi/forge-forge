@@ -15,6 +15,7 @@ forges:
     skills:
       - demo: Generate demo content for a project
       - demo-audit: Assess demo quality and freshness
+      - demo-clean: Remove intermediate files and update .gitignore
 
   - name: test-forge
     description: Testing standards and test generation
@@ -33,3 +34,4 @@ forges:
       - forge-init: Scaffold a new forge
       - forge-audit: Audit a forge against the Forge Standard
       - forge-catalog: List all forges in the ecosystem
+      - forge-sync: Ensure all forges are cloned locally

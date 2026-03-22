@@ -51,11 +51,20 @@ For each `.md` file in `.claude/skills/`:
 | Has Rules section | Skill defines constraints and boundaries |
 | Reasonable length | WARN if >300 lines (skills should be focused) |
 
-### Registry
+### README Quality
+
+| Check | Criteria |
+|-------|---------|
+| Usage instructions | README explains how to install/use the skills (clone + copy pattern) |
+| Skills table | README has a table listing all skills with descriptions |
+
+### Registry Consistency
 
 | Check | Criteria |
 |-------|---------|
 | Registered | This forge appears in `~/repos-eidos-agi/forge-forge/registry.yaml` |
+| Skills match files | Every skill listed in registry.yaml for this forge has a corresponding `.md` file in `.claude/skills/`. WARN if registry lists skills that don't exist as files (registry drift). |
+| Files match registry | Every `.md` file in `.claude/skills/` is listed in registry.yaml. WARN if orphan skills exist. |
 
 ## Output Format
 
