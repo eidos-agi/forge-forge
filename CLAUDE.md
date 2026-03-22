@@ -40,4 +40,5 @@ Every forge has the "no software" guardrail. Every forge has a vision. Every for
 
 - **foss-forge** — open-source standards and marketing for agentic software
 - **demo-forge** — AI-generated demos (GIFs, SVGs, screenshots, diagrams)
+- **security-forge** — security auditing and agentic threat modeling
 - **test-forge** — testing standards and test generation

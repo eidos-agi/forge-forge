@@ -9,6 +9,7 @@ A forge is a repo that packages reusable AI agent knowledge as [Claude Code](htt
 Each forge owns a domain:
 - **foss-forge** — how to publish great open-source agentic software
 - **demo-forge** — how to create compelling demo content
+- **security-forge** — how to secure agentic software
 - **test-forge** — how to test effectively
 - **forge-forge** — how to create and manage forges (this repo)
 
