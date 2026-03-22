@@ -55,6 +55,16 @@ forges:
       - ship-deploy: Railway deployment checklist (health checks, SIGTERM, env vars)
       - ship-qa: MCP server QA (schemas, descriptions, errors, behavior testing)
 
+  - name: refactor-forge
+    type: knowledge
+    description: Language migrations and rewrites with behavioral parity testing
+    repo: eidos-agi/refactor-forge
+    skills:
+      - refactor-capture: Capture golden fixtures from the original implementation
+      - refactor-port: Port one tool at a time with exact behavioral match
+      - refactor-verify: Replay fixtures against the port, report pass/fail with diffs
+      - refactor-migrate: Full cutover with backup preservation
+
   # --- Tool Forges (MCP servers / software that forge things) ---
 
   - name: test-forge
