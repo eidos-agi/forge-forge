@@ -1,0 +1,54 @@
+# Eidos AGI Org-Wide Baseline
+# Applied to all repos unless overridden by .forge/manifest.yaml
+#
+# This is the centralized policy. Repo-local manifests override
+# specific fields. Missing fields in repo manifests inherit from here.
+
+manifest_version: 1
+
+repo:
+  visibility: public
+  org: eidos-agi
+  branch_protection:
+    branch: main
+    require_pr: false
+    required_checks: []
+
+packaging:
+  build_system: hatchling
+  readme:
+    absolute_images: true
+
+quality:
+  required_files:
+    - LICENSE
+    - README.md
+  min_grade:
+    foss_check: C
+    ship_check: warn
+    sec_audit: warn
+
+security:
+  secret_scanning: true
+  dependency_audit: true
+  git_history_scan: false
+  agentic_threat_model: false
+
+dependencies:
+  max_count: 10
+  banned: []
+  heavy_warning:
+    - numpy
+    - pandas
+    - scipy
+    - torch
+    - tensorflow
+
+ci:
+  workflows:
+    ci: true
+    publish: false
+  permissions:
+    contents_read: true
+  pre_commit: false
+  build_verification: false

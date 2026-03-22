@@ -1,0 +1,50 @@
+# .forge/manifest.yaml — railguey
+# Project-scoped Railway MCP server
+
+manifest_version: 1
+
+repo:
+  visibility: private
+  org: eidos-agi
+  topics: [railway, mcp, deploy, devops, model-context-protocol]
+
+packaging:
+  build_system: hatchling
+  pypi:
+    name: railguey
+    publish: true
+    trusted_publisher:
+      owner: eidos-agi
+      repo: railguey
+      workflow: publish.yml
+      environment: pypi
+  readme:
+    absolute_images: true
+
+quality:
+  required_files:
+    - LICENSE
+    - README.md
+    - CHANGELOG.md
+    - SECURITY.md
+  min_grade:
+    foss_check: B
+    ship_check: pass
+    sec_audit: clean
+
+security:
+  secret_scanning: true
+  dependency_audit: true
+  git_history_scan: true
+
+dependencies:
+  max_count: 5
+
+ci:
+  workflows:
+    ci: true
+    publish: true
+  permissions:
+    contents_read: true
+  pre_commit: true
+  build_verification: true
