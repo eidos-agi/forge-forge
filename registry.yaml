@@ -1,5 +1,20 @@
+## Knowledge Forges (skills + templates, no software)
+
 forges:
+  # --- Knowledge Forges ---
+
+  - name: forge-forge
+    type: knowledge
+    description: Meta-forge for creating and managing forges
+    repo: eidos-agi/forge-forge
+    skills:
+      - forge-init: Scaffold a new forge
+      - forge-audit: Audit a forge against the Forge Standard
+      - forge-catalog: List all forges in the ecosystem
+      - forge-sync: Ensure all forges are cloned locally
+
   - name: foss-forge
+    type: knowledge
     description: Open-source standards and marketing for agentic software
     repo: eidos-agi/foss-forge
     skills:
@@ -10,6 +25,7 @@ forges:
       - foss-demo: Demo assessment (delegates to demo-forge)
 
   - name: demo-forge
+    type: knowledge
     description: AI-generated demo content — GIFs, SVGs, screenshots, diagrams, social cards
     repo: eidos-agi/demo-forge
     skills:
@@ -17,21 +33,95 @@ forges:
       - demo-audit: Assess demo quality and freshness
       - demo-clean: Remove intermediate files and update .gitignore
 
-  - name: test-forge
-    description: Testing standards and test generation
-    repo: eidos-agi/test-forge
+  - name: security-forge
+    type: knowledge
+    description: Security auditing and hardening for agentic software
+    repo: eidos-agi/security-forge
     skills:
-      - test_this: Test a specific file or function
-      - test_these: Test multiple files
-      - whats_wrong: Debug failing tests
-      - playbooks: Test strategy playbooks
-      - read_notes: Read test notes
+      - sec-audit: Full security audit (secrets, deps, agentic threats, pre-release)
+      - sec-scan: Quick secret and vulnerability scan
+      - sec-threat-model: Generate STRIDE-A agentic threat model
 
-  - name: forge-forge
-    description: Meta-forge for creating and managing forges
-    repo: eidos-agi/forge-forge
-    skills:
-      - forge-init: Scaffold a new forge
-      - forge-audit: Audit a forge against the Forge Standard
-      - forge-catalog: List all forges in the ecosystem
-      - forge-sync: Ensure all forges are cloned locally
+  # --- Tool Forges (MCP servers / software that forge things) ---
+
+  - name: test-forge
+    type: tool
+    description: Intelligent testing — point at anything, say "test this"
+    repo: eidos-agi/test-forge
+    tools:
+      - test_this: Test any target with structured evidence
+      - whats_wrong: Deep diagnosis with full LLM intelligence
+      - test_these: Batch test multiple targets
+      - playbooks: List available testing playbooks
+      - read_notes: Read handoff letter from prior robot
+
+  - name: book-forge
+    type: tool
+    description: Complete book publishing pipeline — markdown to EPUB/PDF/HTML/audiobook
+    repo: eidos-agi/book-forge
+    tools:
+      - book_build: Build into EPUB, PDF, HTML, web, audiobook
+      - book_check: Quality checks (broken images, consistency, TODOs)
+      - book_stats: Word counts, reading time, figure index
+      - book_cover: Generate cover artwork + text overlay
+      - book_pipeline_status: Stage completion status
+      - book_pipeline_run: Run, pass/fail/skip, or reset stages
+
+  - name: elt-forge
+    type: tool
+    description: Data pipeline framework — medallion architecture with contracts and audit
+    repo: eidos-agi/elt-forge
+    tools:
+      - elt_forge: Stateful workflow engine (add source, scaffold views, validate)
+      - elt_forge_learn: Knowledge base — patterns, profiles, conventions
+      - elt_forge_audit: Pattern compliance audit with grade + findings
+      - elt_forge_remember: Store per-app learnings
+      - elt_forge_recall: Retrieve stored learnings
+      - elt_forge_contract_check: Check contract coverage + violations
+      - elt_forge_contract_generate: Generate contract stubs from YAML
+
+  - name: image-forge
+    type: tool
+    description: AI image generation — concept interviews, generation, editing, book covers
+    repo: eidos-agi/image-forge
+    tools:
+      - image_concept: Creative briefing — analyze context, propose visual concepts
+      - image_generate: Text-to-image generation
+      - image_edit: Edit existing image with prompt
+      - image_cover: Generate book cover artwork
+
+  - name: underwriting-forge
+    type: tool
+    description: Deal underwriting suite — load to decision with conviction scoring
+    repo: eidos-agi/underwriting-forge
+    tools:
+      - deal_load: Load deal from YAML + folder
+      - deal_status: Current phase, blockers, findings, conviction
+      - deal_advance: Move to next phase
+      - deal_answer_question: Answer due diligence question
+      - deal_score_conviction: Score conviction (0-10)
+      - deal_compute_model: Build financial model
+      - deal_run_scenarios: Run scenario analysis
+      - deal_set_recommendation: Set final recommendation
+      - deal_write_decision: Write decision memo
+      - deal_generate_xlsx: Generate workbook with all models
+      # Plus 15 more tools for blockers, flags, risk, cap table, waterfall, etc.
+
+  - name: brand-forge
+    type: tool
+    description: Generate every brand asset in one command — OG images, social, banners, print
+    repo: eidos-agi/brand-forge
+    tools:
+      - generate_all: Generate all brand assets from definition (CLI)
+
+  - name: video-forge
+    type: tool
+    description: Cinematic brand video production — 11-stage pipeline from intake to deliver
+    repo: eidos-agi/video-forge
+    tools: []  # Pipeline design only, no MCP tools yet
+
+  - name: marketing-forge
+    type: tool
+    description: Distribution + measurement — tracked URLs, local SEO, campaign copy
+    repo: eidos-agi/marketing-forge
+    tools: []  # Thesis stage, no tools yet
