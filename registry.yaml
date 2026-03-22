@@ -42,6 +42,17 @@ forges:
       - sec-scan: Quick secret and vulnerability scan
       - sec-threat-model: Generate STRIDE-A agentic threat model
 
+  - name: ship-forge
+    type: knowledge
+    description: Shipping standards — CI/CD, QA, code quality, deployment, release hygiene
+    repo: eidos-agi/ship-forge
+    skills:
+      - ship-check: Pre-ship audit (clean tree, build verification, install-test artifacts)
+      - ship-init: Scaffold shipping infrastructure (pre-commit, CI, .gitignore)
+      - ship-release: End-to-end release pipeline with artifact verification
+      - ship-deploy: Railway deployment checklist (health checks, SIGTERM, env vars)
+      - ship-qa: MCP server QA (schemas, descriptions, errors, behavior testing)
+
   # --- Tool Forges (MCP servers / software that forge things) ---
 
   - name: test-forge
