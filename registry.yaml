@@ -1,0 +1,35 @@
+forges:
+  - name: foss-forge
+    description: Open-source standards and marketing for agentic software
+    repo: eidos-agi/foss-forge
+    skills:
+      - foss-check: Audit a repo against FOSS standards
+      - foss-init: Scaffold missing community health files
+      - foss-release: Guided PyPI release
+      - foss-launch: Marketing playbook
+      - foss-demo: Demo assessment (delegates to demo-forge)
+
+  - name: demo-forge
+    description: AI-generated demo content — GIFs, SVGs, screenshots, diagrams, social cards
+    repo: eidos-agi/demo-forge
+    skills:
+      - demo: Generate demo content for a project
+      - demo-audit: Assess demo quality and freshness
+
+  - name: test-forge
+    description: Testing standards and test generation
+    repo: eidos-agi/test-forge
+    skills:
+      - test_this: Test a specific file or function
+      - test_these: Test multiple files
+      - whats_wrong: Debug failing tests
+      - playbooks: Test strategy playbooks
+      - read_notes: Read test notes
+
+  - name: forge-forge
+    description: Meta-forge for creating and managing forges
+    repo: eidos-agi/forge-forge
+    skills:
+      - forge-init: Scaffold a new forge
+      - forge-audit: Audit a forge against the Forge Standard
+      - forge-catalog: List all forges in the ecosystem
