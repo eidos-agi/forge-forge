@@ -60,7 +60,10 @@ forges:
     type: knowledge
     description: AI-powered grocery shopping — meal planning, cart optimization, multi-store orchestration
     repo: eidos-agi/shopping-forge
-    skills: []  # Coming soon: store integration, meal planning, cart building, order orchestration
+    skills:
+      - shop-plan: Meal-to-list pipeline — preferences → meal plan → shopping list (Omni-backed memory)
+      - shop-store: Store integration knowledge base — MCP capabilities, auth, rate limits, gotchas
+      - shop-cart: Cart orchestration — product matching, bulk-add, human review gate
 
   - name: refactor-forge
     type: knowledge
