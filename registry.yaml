@@ -56,6 +56,12 @@ forges:
       - ship-deploy: Railway deployment checklist (health checks, SIGTERM, env vars)
       - ship-qa: MCP server QA (schemas, descriptions, errors, behavior testing)
 
+  - name: shopping-forge
+    type: knowledge
+    description: AI-powered grocery shopping — meal planning, cart optimization, multi-store orchestration
+    repo: eidos-agi/shopping-forge
+    skills: []  # Coming soon: store integration, meal planning, cart building, order orchestration
+
   - name: refactor-forge
     type: knowledge
     description: Language migrations and rewrites with behavioral parity testing
