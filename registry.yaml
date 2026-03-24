@@ -70,11 +70,14 @@ forges:
     description: Solve software problems with ML, not just LLMs — small local models as static artifacts
     repo: eidos-agi/ml-forge
     skills:
+      - ml-pick: Choose the right intelligence level (rules → ML → embeddings → SLMs → LLMs)
+      - ml-find: Search HuggingFace and model registries for pre-trained models
       - ml-assess: Evaluate whether a problem is ML-shaped
       - ml-extract: Design feature extraction from local signals
       - ml-train: Build offline training with proper evaluation
       - ml-ship: Package model as minimal static artifact
       - ml-evaluate: Model quality report with baseline comparison
+    reference_skills: 25  # technique library on deck (class-imbalance, ensemble-voting, etc.)
 
   - name: refactor-forge
     type: knowledge
