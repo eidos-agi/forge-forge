@@ -89,6 +89,16 @@ forges:
       - refactor-verify: Replay fixtures against the port, report pass/fail with diffs
       - refactor-migrate: Full cutover with backup preservation
 
+  - name: brutal-forge
+    type: knowledge
+    description: Zero-mercy software quality demolition — 5-angle attack ranked by user pain
+    repo: eidos-agi/brutal-forge
+    skills:
+      - brutalize: Full 5-angle codebase demolition (code, UX, reliability, product, ops)
+      - roast: Line-by-line single-file destruction
+      - compare: Feature gap analysis against competitors
+      - shame-board: Worst findings across all brutalized projects
+
   # --- Tool Forges (MCP servers / software that forge things) ---
 
   - name: test-forge
