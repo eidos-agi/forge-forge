@@ -77,7 +77,7 @@ forges:
       - ml-train: Build offline training with proper evaluation
       - ml-ship: Package model as minimal static artifact
       - ml-evaluate: Model quality report with baseline comparison
-    reference_skills: 25  # technique library on deck (class-imbalance, ensemble-voting, etc.)
+    reference_skills: 19  # technique library on deck (class-imbalance, ensemble-voting, etc.)
 
   - name: refactor-forge
     type: knowledge
