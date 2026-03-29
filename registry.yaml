@@ -89,6 +89,14 @@ forges:
       - refactor-verify: Replay fixtures against the port, report pass/fail with diffs
       - refactor-migrate: Full cutover with backup preservation
 
+  - name: improve-forge
+    type: knowledge
+    description: Systematically improve any project — score, prioritize, fix, verify, leave it better
+    repo: eidos-agi/improve-forge
+    skills:
+      - improve: Score a project across 9 dimensions, fix the highest-impact gap, verify, record
+      - improve-history: View improvement trends over time
+
   - name: brutal-forge
     type: knowledge
     description: Zero-mercy software quality demolition — 5-angle attack ranked by user pain
