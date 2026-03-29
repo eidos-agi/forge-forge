@@ -1,0 +1,58 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eidos-agi.github.io/forge-forge/contracts/proposal.schema.json",
+  "title": "Forge Improvement Proposal",
+  "description": "A proposed improvement to a forge, submitted by learning-forge for forge-forge to review. The proposals directory is the inbox. forge-forge is the authority.",
+  "type": "object",
+  "required": ["title", "learning", "source", "target_forge", "target_file", "change", "why", "evidence"],
+  "properties": {
+    "title": {
+      "type": "string",
+      "description": "Short title of the proposal"
+    },
+    "learning": {
+      "type": "string",
+      "description": "The learning that produced this proposal — one actionable sentence"
+    },
+    "source": {
+      "type": "string",
+      "description": "Which session/project/debug produced this learning"
+    },
+    "target_forge": {
+      "type": "string",
+      "description": "Which forge this proposal would change"
+    },
+    "target_file": {
+      "type": "string",
+      "description": "Specific file path within the target forge"
+    },
+    "change": {
+      "type": "string",
+      "description": "What to add, modify, or remove"
+    },
+    "why": {
+      "type": "string",
+      "description": "How this improves every future agent that uses the target forge"
+    },
+    "evidence": {
+      "type": "string",
+      "description": "The specific incident — logs, scores, error messages — that proves this matters"
+    },
+    "status": {
+      "type": "string",
+      "enum": ["proposed", "accepted", "rejected", "applied"],
+      "default": "proposed",
+      "description": "Lifecycle state. Only forge-forge changes this."
+    },
+    "reviewed_at": {
+      "type": ["string", "null"],
+      "format": "date",
+      "description": "When forge-forge reviewed this proposal"
+    },
+    "review_note": {
+      "type": ["string", "null"],
+      "description": "forge-forge's rationale for accept/reject"
+    }
+  },
+  "additionalProperties": false
+}
