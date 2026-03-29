@@ -97,6 +97,14 @@ forges:
       - improve: Score a project across 9 dimensions, fix the highest-impact gap, verify, record
       - improve-history: View improvement trends over time
 
+  - name: learning-forge
+    type: knowledge
+    description: Turn experience into improvement — capture learnings, route to projects and forges
+    repo: eidos-agi/learning-forge
+    skills:
+      - learn: Extract, classify, and route learnings from a session to specific destinations
+      - learn-review: Aggregate learnings across ecosystem, find patterns and repeat offenders
+
   - name: brutal-forge
     type: knowledge
     description: Zero-mercy software quality demolition — 5-angle attack ranked by user pain
