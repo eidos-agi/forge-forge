@@ -1,0 +1,42 @@
+# .forge/installed.yaml — Forge Provenance Record v1
+#
+# Records which forges have been applied to this project, when, and what
+# artifacts they produced. Written by forge init skills (e.g. /loss-init,
+# /foss-init). Read by agents to understand what's already been done.
+#
+# Convention, not enforcement. Forges that don't stamp are still fine.
+# This file is append-only (new forges added, never removed).
+#
+# Location: .forge/installed.yaml in the project root.
+
+format_version: 1
+
+forges:
+  <forge-name>:                         # e.g. "loss-forge"
+    installed: YYYY-MM-DD               # date the forge was first applied
+    updated: YYYY-MM-DD                 # date of last re-run (optional)
+    version: "x.y.z"                    # forge version at install time (if known)
+    skill_used: /skill-name             # which skill was invoked
+    artifacts:                           # files/dirs created by this forge
+      - path/to/file.py
+      - path/to/other.md
+    notes: ""                            # optional free-text
+
+# Example:
+#
+# format_version: 1
+# forges:
+#   loss-forge:
+#     installed: 2026-04-02
+#     skill_used: /loss-init
+#     artifacts:
+#       - src/ai_cockpit/loss.py
+#       - LOSS-BASELINE.md
+#     notes: "Baseline: Loss 1.28 | Mission 1.00"
+#
+#   foss-forge:
+#     installed: 2026-04-01
+#     skill_used: /foss-check
+#     artifacts:
+#       - CONTRIBUTING.md
+#       - LICENSE
