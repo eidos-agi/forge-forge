@@ -1,0 +1,118 @@
+# .forge/manifest.yaml — Forge Manifest Spec v2
+#
+# Declares the desired state for a repository. Forge skills read this
+# manifest and enforce it by detecting drift between declared state
+# and reality.
+#
+# Missing sections inherit from the centralized baseline in
+# forge-forge/defaults/baseline.yaml. Present sections override.
+#
+# Enforcement model (Terraform-inspired):
+#   1. Desired state = this manifest
+#   2. Observed state = what GitHub/PyPI/repo actually looks like
+#   3. Plan = diff shown to user
+#   4. Apply = fix drift (with approval for destructive changes)
+
+manifest_version: 2
+
+# --- repo (enforced by forge-forge) ---
+# GitHub repository settings
+repo:
+  visibility: public | private          # REQUIRED
+  org: eidos-agi                        # GitHub org
+  topics: []                            # GitHub topics (for discoverability)
+  branch_protection:
+    branch: main                        # Protected branch
+    require_pr: false                   # Require PR for merge (false for solo devs)
+    required_checks: []                 # CI check names that must pass
+
+# --- packaging (enforced by ship-forge) ---
+# Python package configuration
+packaging:
+  build_system: hatchling               # hatchling | setuptools
+  pypi:
+    name: my-package                    # PyPI package name
+    publish: true                       # Should this be on PyPI?
+    trusted_publisher:
+      owner: eidos-agi                  # GitHub org for OIDC
+      repo: my-package                  # GitHub repo name
+      workflow: publish.yml             # Workflow filename
+      environment: pypi                 # GitHub environment name
+  readme:
+    absolute_images: true               # All images must use absolute URLs
+
+# --- quality (enforced by foss-forge + ship-forge) ---
+# Required standards and files
+quality:
+  required_files:
+    - LICENSE
+    - README.md
+    - CHANGELOG.md
+    - CONTRIBUTING.md
+    - CODE_OF_CONDUCT.md
+    - SECURITY.md
+  min_grade:
+    foss_check: B                       # A | B | C | D | F
+    ship_check: pass                    # pass | warn | skip
+    sec_audit: clean                    # clean | warn | skip
+
+# --- security (enforced by security-forge) ---
+security:
+  secret_scanning: true                 # Grep for leaked secrets
+  dependency_audit: true                # Run pip-audit
+  git_history_scan: true                # Check git history for past secrets
+  agentic_threat_model: false           # Run STRIDE-A (opt-in, heavier)
+
+# --- deployment (enforced by ship-forge) ---
+# Only for deployable services, not libraries/CLIs
+deployment:
+  platform: railway | none              # Where this deploys
+  service_name: my-service              # Railway service name
+  health_check: /healthz                # Health check endpoint
+  env_documented: true                  # .env.example must exist
+  graceful_shutdown: true               # Must handle SIGTERM
+
+# --- dependencies (enforced by ship-forge) ---
+dependencies:
+  max_count: 5                          # Max direct runtime deps
+  banned:                               # Never allow these
+    - requests                          # use httpx instead
+  heavy_warning:                        # Warn but don't block
+    - numpy
+    - pandas
+    - torch
+
+# --- ci (enforced by ship-forge) ---
+ci:
+  workflows:
+    ci: true                            # CI workflow must exist
+    publish: true                       # Publish workflow must exist
+  permissions:
+    contents_read: true                 # Explicit contents:read when id-token:write set
+  pre_commit: true                      # .pre-commit-config.yaml must exist
+  build_verification: true              # CI must install-test built artifacts
+
+# --- forges (enforced by forge-forge) ---
+# Forge ecosystem integration
+forges:
+  provenance: .forge/installed.yaml     # path to provenance file
+  recommended:                           # forges that SHOULD be applied
+    - loss-forge                         # measurable improvement
+    - foss-forge                         # if repo.visibility == public
+    - security-forge                     # if repo.visibility == public or deployment != none
+  optional:                              # nice-to-have, no drift if missing
+    - improve-forge
+    - demo-forge
+    - brutal-forge
+
+# --- exceptions ---
+# Temporary waivers for specific rules
+exceptions:
+  - rule: dependencies.max_count
+    justification: "numpy required for session classification model"
+    owner: daniel@eidosagi.com
+    expires: 2026-06-01
+  - rule: quality.required_files.CONTRIBUTING.md
+    justification: "Solo project, not accepting contributions yet"
+    owner: daniel@eidosagi.com
+    expires: 2026-09-01
