@@ -232,6 +232,170 @@ def forge_info(name: str) -> dict:
     }
 
 
+@mcp.tool()
+def forge_how(name: str) -> dict:
+    """How to use a specific forge right now — prerequisites, invocation, expected output.
+
+    Args:
+        name: Forge name (e.g. "improve-forge", "loss-forge").
+    """
+    forges = _load_registry()
+    clean = name.lower().strip()
+
+    forge = None
+    for f in forges:
+        if f.get("name", "").lower() == clean:
+            forge = f
+            break
+    if not forge:
+        for f in forges:
+            if clean in f.get("name", "").lower():
+                forge = f
+                break
+    if not forge:
+        return {"error": f"No forge named '{name}'. Use forge_list to see all forges."}
+
+    invocation = forge.get("invocation", "skill")
+    prereqs = forge.get("prerequisites", {})
+    clone_needed = prereqs.get("clone", True)
+    pip_needed = prereqs.get("pip", False)
+    repo = forge.get("repo", "")
+    artifacts = forge.get("artifacts", [])
+    example = forge.get("example", "")
+    forge_name = forge.get("name", "")
+
+    # Build quick_start instructions
+    steps = []
+    if invocation == "skill" and clone_needed:
+        steps.append(f"Clone: gh repo clone {repo} ~/repos-eidos-agi/{forge_name}")
+        steps.append(f"In your project, tell Claude Code: {example}")
+    elif invocation == "mcp" and pip_needed:
+        steps.append(f"Install: pip install {forge_name}")
+        steps.append(f"Or add as MCP: claude mcp add {forge_name}")
+        steps.append(f"Then use: {example}")
+    elif invocation == "cli" and pip_needed:
+        steps.append(f"Install: pip install {forge_name}")
+        steps.append(f"Run: {example}")
+    else:
+        steps.append(f"In your project, tell Claude Code: {example}")
+
+    quick_start = "\n".join(steps)
+
+    result = {
+        "name": forge_name,
+        "description": forge.get("description", ""),
+        "invocation": invocation,
+        "prerequisites": prereqs,
+        "artifacts": artifacts,
+        "example": example,
+        "quick_start": quick_start,
+    }
+
+    if forge.get("skills"):
+        result["skills"] = forge["skills"]
+    if forge.get("tools"):
+        result["tools"] = forge["tools"]
+
+    return result
+
+
+@mcp.tool()
+def forge_for_project(path: str = ".", description: str = "") -> dict:
+    """Recommend forges for a project based on its characteristics.
+
+    Args:
+        path: Path to the project root (default: current dir).
+        description: Optional description of what the project does.
+    """
+    from pathlib import Path as P
+
+    p = P(path).expanduser().resolve()
+    forges = _load_registry()
+
+    # Detect project characteristics
+    signals = {
+        "has_pyproject": (p / "pyproject.toml").exists(),
+        "has_license": (p / "LICENSE").exists(),
+        "has_tests": (p / "tests").is_dir(),
+        "has_ci": (p / ".github" / "workflows").is_dir(),
+        "has_mcp": False,
+        "has_loss": (p / "LOSS-BASELINE.md").exists(),
+        "has_forge_provenance": (p / ".forge" / "installed.yaml").exists(),
+    }
+
+    # Check for MCP server
+    for f in p.glob("*.py"):
+        try:
+            if "FastMCP" in f.read_text(errors="ignore")[:5000]:
+                signals["has_mcp"] = True
+                break
+        except Exception:
+            pass
+
+    # Load installed forges
+    installed = {}
+    if signals["has_forge_provenance"]:
+        try:
+            installed_data = yaml.safe_load((p / ".forge" / "installed.yaml").read_text())
+            installed = installed_data.get("forges", {}) if installed_data else {}
+        except Exception:
+            pass
+
+    # Build recommendations
+    recommended = []
+    optional = []
+
+    def _rec(name, reason):
+        is_installed = name in installed
+        recommended.append({"name": name, "reason": reason, "installed": is_installed})
+
+    def _opt(name, reason):
+        optional.append({"name": name, "reason": reason, "installed": name in installed})
+
+    # Every project
+    _rec("loss-forge", "Every project should measure itself")
+    _rec("improve-forge", "Systematic improvement scoring")
+
+    # Public repos
+    if signals["has_license"]:
+        _rec("foss-forge", "Public repo — ensure community health files")
+        _rec("security-forge", "Public repo — audit for secrets and vulnerabilities")
+
+    # PyPI packages
+    if signals["has_pyproject"]:
+        _rec("ship-forge", "Has pyproject.toml — shipping standards, CI, release pipeline")
+
+    # MCP servers
+    if signals["has_mcp"]:
+        _rec("ship-forge", "MCP server — run ship-qa for schema/behavior testing")
+
+    # No tests
+    if not signals["has_tests"]:
+        _rec("test-forge", "No tests/ directory found")
+
+    # Optional for all
+    _opt("brutal-forge", "Zero-mercy code quality review")
+    _opt("demo-forge", "Generate demo content (GIFs, screenshots)")
+    _opt("learning-forge", "Capture and route learnings from sessions")
+
+    # Deduplicate recommended
+    seen = set()
+    deduped = []
+    for r in recommended:
+        if r["name"] not in seen:
+            seen.add(r["name"])
+            deduped.append(r)
+    recommended = deduped
+
+    return {
+        "project": str(p),
+        "signals": signals,
+        "recommended": recommended,
+        "optional": optional,
+        "already_installed": list(installed.keys()),
+    }
+
+
 # ---------------------------------------------------------------------------
 # Entry point
 # ---------------------------------------------------------------------------

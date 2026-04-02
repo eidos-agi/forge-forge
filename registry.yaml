@@ -7,6 +7,10 @@ forges:
     type: knowledge
     description: Meta-forge for creating and managing forges
     repo: eidos-agi/forge-forge
+    invocation: skill
+    prerequisites: { clone: true, pip: false }
+    artifacts: [.forge/manifest.yaml]
+    example: "/forge-manifest-init"
     skills:
       - forge-init: Scaffold a new forge
       - forge-audit: Audit a forge against the Forge Standard
@@ -19,6 +23,10 @@ forges:
     type: knowledge
     description: Open-source standards and marketing for agentic software
     repo: eidos-agi/foss-forge
+    invocation: skill
+    prerequisites: { clone: true, pip: false }
+    artifacts: [LICENSE, CONTRIBUTING.md, CHANGELOG.md, CODE_OF_CONDUCT.md, SECURITY.md]
+    example: "/foss-check"
     skills:
       - foss-check: Audit a repo against FOSS standards
       - foss-init: Scaffold missing community health files
@@ -30,6 +38,10 @@ forges:
     type: knowledge
     description: AI-generated demo content — GIFs, SVGs, screenshots, diagrams, social cards
     repo: eidos-agi/demo-forge
+    invocation: skill
+    prerequisites: { clone: true, pip: false }
+    artifacts: [demo/]
+    example: "/demo"
     skills:
       - demo: Generate demo content for a project
       - demo-audit: Assess demo quality and freshness
@@ -39,6 +51,10 @@ forges:
     type: knowledge
     description: Security auditing and hardening for agentic software
     repo: eidos-agi/security-forge
+    invocation: skill
+    prerequisites: { clone: true, pip: false }
+    artifacts: [SECURITY.md]
+    example: "/sec-audit"
     skills:
       - sec-audit: Full security audit (secrets, deps, agentic threats, pre-release)
       - sec-scan: Quick secret and vulnerability scan
@@ -48,6 +64,10 @@ forges:
     type: knowledge
     description: Shipping standards — CI/CD, QA, code quality, deployment, release hygiene
     repo: eidos-agi/ship-forge
+    invocation: skill
+    prerequisites: { clone: true, pip: false }
+    artifacts: [.github/workflows/ci.yml, .github/workflows/publish.yml, .pre-commit-config.yaml]
+    example: "/ship-check"
     skills:
       - ship-full-audit: Run ALL forges against a project (foss-check → sec-audit → ship-check → ship-qa → forge-enforce)
       - ship-check: Pre-ship audit (clean tree, build verification, install-test artifacts)
@@ -60,6 +80,10 @@ forges:
     type: knowledge
     description: AI-powered grocery shopping — meal planning, cart optimization, multi-store orchestration
     repo: eidos-agi/shopping-forge
+    invocation: skill
+    prerequisites: { clone: true, pip: false }
+    artifacts: []
+    example: "/shop-plan"
     skills:
       - shop-plan: Meal-to-list pipeline — preferences → meal plan → shopping list (Omni-backed memory)
       - shop-store: Store integration knowledge base — MCP capabilities, auth, rate limits, gotchas
@@ -69,6 +93,10 @@ forges:
     type: knowledge
     description: Solve software problems with ML, not just LLMs — small local models as static artifacts
     repo: eidos-agi/ml-forge
+    invocation: skill
+    prerequisites: { clone: true, pip: false }
+    artifacts: [models/]
+    example: "/ml-assess"
     skills:
       - ml-pick: Choose the right intelligence level (rules → ML → embeddings → SLMs → LLMs)
       - ml-find: Search HuggingFace and model registries for pre-trained models
@@ -83,6 +111,10 @@ forges:
     type: knowledge
     description: Language migrations and rewrites with behavioral parity testing
     repo: eidos-agi/refactor-forge
+    invocation: skill
+    prerequisites: { clone: true, pip: false }
+    artifacts: [.refactor/fixtures/]
+    example: "/refactor-capture"
     skills:
       - refactor-capture: Capture golden fixtures from the original implementation
       - refactor-port: Port one tool at a time with exact behavioral match
@@ -93,6 +125,10 @@ forges:
     type: knowledge
     description: Systematically improve any project — score, prioritize, fix, verify, leave it better
     repo: eidos-agi/improve-forge
+    invocation: skill
+    prerequisites: { clone: true, pip: false }
+    artifacts: []
+    example: "/improve"
     skills:
       - improve: Score a project across 9 dimensions, fix the highest-impact gap, verify, record
       - improve-history: View improvement trends over time
@@ -101,6 +137,10 @@ forges:
     type: knowledge
     description: Turn experience into improvement — capture learnings, route to projects and forges
     repo: eidos-agi/learning-forge
+    invocation: skill
+    prerequisites: { clone: true, pip: false }
+    artifacts: []
+    example: "/learn"
     skills:
       - learn: Extract, classify, and route learnings from a session to specific destinations
       - learn-review: Aggregate learnings across ecosystem, find patterns and repeat offenders
@@ -109,6 +149,10 @@ forges:
     type: knowledge
     description: Zero-mercy software quality demolition — 5-angle attack ranked by user pain
     repo: eidos-agi/brutal-forge
+    invocation: skill
+    prerequisites: { clone: true, pip: false }
+    artifacts: [findings/]
+    example: "/brutalize"
     skills:
       - brutalize: Full 5-angle codebase demolition (code, UX, reliability, product, ops)
       - roast: Line-by-line single-file destruction
@@ -119,6 +163,10 @@ forges:
     type: knowledge
     description: Measurable improvement for AI-operated systems — loss functions + mission scores
     repo: eidos-agi/loss-forge
+    invocation: skill
+    prerequisites: { clone: true, pip: false }
+    artifacts: [loss.py, LOSS-BASELINE.md, .forge/installed.yaml]
+    example: "/loss-init"
     skills:
       - loss-init: Define loss functions and mission scores for any project
       - loss-check: Before/after comparison — verdict on whether a change helped or hurt
@@ -130,6 +178,10 @@ forges:
     type: tool
     description: Intelligent testing — point at anything, say "test this"
     repo: eidos-agi/test-forge
+    invocation: mcp
+    prerequisites: { clone: false, pip: true }
+    artifacts: [tests/]
+    example: "test_this(target='src/')"
     tools:
       - test_this: Test any target with structured evidence
       - whats_wrong: Deep diagnosis with full LLM intelligence
@@ -141,6 +193,10 @@ forges:
     type: tool
     description: Complete book publishing pipeline — markdown to EPUB/PDF/HTML/audiobook
     repo: eidos-agi/book-forge
+    invocation: mcp
+    prerequisites: { clone: false, pip: true }
+    artifacts: [build/]
+    example: "book_build(format='epub')"
     tools:
       - book_build: Build into EPUB, PDF, HTML, web, audiobook
       - book_check: Quality checks (broken images, consistency, TODOs)
@@ -153,6 +209,10 @@ forges:
     type: tool
     description: Data pipeline framework — medallion architecture with contracts and audit
     repo: eidos-agi/elt-forge
+    invocation: mcp
+    prerequisites: { clone: false, pip: true }
+    artifacts: []
+    example: "elt_forge(action='add_source')"
     tools:
       - elt_forge: Stateful workflow engine (add source, scaffold views, validate)
       - elt_forge_learn: Knowledge base — patterns, profiles, conventions
@@ -166,6 +226,10 @@ forges:
     type: tool
     description: AI image generation — concept interviews, generation, editing, book covers
     repo: eidos-agi/image-forge
+    invocation: mcp
+    prerequisites: { clone: false, pip: true }
+    artifacts: []
+    example: "image_generate(prompt='...')"
     tools:
       - image_concept: Creative briefing — analyze context, propose visual concepts
       - image_generate: Text-to-image generation
@@ -176,6 +240,10 @@ forges:
     type: tool
     description: Deal underwriting suite — load to decision with conviction scoring
     repo: eidos-agi/underwriting-forge
+    invocation: mcp
+    prerequisites: { clone: false, pip: true }
+    artifacts: [deals/]
+    example: "deal_load(path='deal.yaml')"
     tools:
       - deal_load: Load deal from YAML + folder
       - deal_status: Current phase, blockers, findings, conviction
@@ -193,6 +261,10 @@ forges:
     type: tool
     description: Generate every brand asset in one command — OG images, social, banners, print
     repo: eidos-agi/brand-forge
+    invocation: cli
+    prerequisites: { clone: false, pip: true }
+    artifacts: [brand/]
+    example: "generate_all"
     tools:
       - generate_all: Generate all brand assets from definition (CLI)
 
@@ -200,10 +272,18 @@ forges:
     type: tool
     description: Cinematic brand video production — 11-stage pipeline from intake to deliver
     repo: eidos-agi/video-forge
+    invocation: skill
+    prerequisites: { clone: true, pip: false }
+    artifacts: []
+    example: "(pipeline design only — not yet built)"
     tools: []  # Pipeline design only, no MCP tools yet
 
   - name: marketing-forge
     type: tool
     description: Distribution + measurement — tracked URLs, local SEO, campaign copy
     repo: eidos-agi/marketing-forge
+    invocation: skill
+    prerequisites: { clone: true, pip: false }
+    artifacts: []
+    example: "(thesis stage — not yet built)"
     tools: []  # Thesis stage, no tools yet
