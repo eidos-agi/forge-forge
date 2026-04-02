@@ -115,6 +115,15 @@ forges:
       - compare: Feature gap analysis against competitors
       - shame-board: Worst findings across all brutalized projects
 
+  - name: loss-forge
+    type: knowledge
+    description: Measurable improvement for AI-operated systems — loss functions + mission scores
+    repo: eidos-agi/loss-forge
+    skills:
+      - loss-init: Define loss functions and mission scores for any project
+      - loss-check: Before/after comparison — verdict on whether a change helped or hurt
+      - loss-audit: Validate loss function quality, coverage, and gameability
+
   # --- Tool Forges (MCP servers / software that forge things) ---
 
   - name: test-forge
