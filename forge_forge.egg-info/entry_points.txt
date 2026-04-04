@@ -1,0 +1,2 @@
+[console_scripts]
+forge-forge-mcp = mcp_server:main
