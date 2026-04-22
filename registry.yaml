@@ -19,6 +19,34 @@ forges:
       - forge-enforce: Enforce manifest desired state (detect drift, plan, apply)
       - forge-manifest-init: Scaffold a .forge/manifest.yaml from current repo state
 
+  - name: cli-forge
+    type: knowledge
+    description: Convert MCP servers into agent-first CLIs — kill the token tax
+    repo: eidos-agi/cli-forge
+    invocation: skill
+    prerequisites: { clone: true, pip: false }
+    artifacts: []
+    example: "/cli-forge audit"
+    skills:
+      - cli-forge-audit: Analyze an MCP — tool count, token cost, usage, extract candidates
+      - cli-forge-convert: Generate CLI source from MCP tool definitions
+      - cli-forge-skill: Generate agent skill file for the new CLI
+
+  - name: mcp-forge
+    type: knowledge
+    description: Build MCP servers the right way — from API design through marketplace distribution
+    repo: eidos-agi/mcp-forge
+    invocation: skill
+    prerequisites: { clone: true, pip: false }
+    artifacts: []
+    example: "/mcp-forge init"
+    skills:
+      - mcp-forge-init: Scaffold new MCP server (TypeScript or Python)
+      - mcp-forge-tool: Add a tool with schema + handler + test
+      - mcp-forge-channel: Add channel capability for messaging bridges
+      - mcp-forge-test: Generate test harness
+      - mcp-forge-publish: Package for Eidos marketplace
+
   - name: nightingale-forge
     type: knowledge
     description: Failure study forge — reads session transcripts, extracts incidents, cross-references against StepProof runbooks
