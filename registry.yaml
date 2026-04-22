@@ -15,7 +15,8 @@ forges:
       - forge-init: Scaffold a new forge
       - forge-audit: Audit a forge against the Forge Standard
       - forge-catalog: List all forges in the ecosystem
-      - forge-sync: Ensure all forges are cloned locally
+      - forge-sync: Three-way reconciliation (registry vs GitHub vs local)
+      - forge-publish: Sync registry.yaml → eidosagi.com/forges page
       - forge-enforce: Enforce manifest desired state (detect drift, plan, apply)
       - forge-manifest-init: Scaffold a .forge/manifest.yaml from current repo state
 
