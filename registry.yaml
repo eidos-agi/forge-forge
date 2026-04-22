@@ -19,6 +19,20 @@ forges:
       - forge-enforce: Enforce manifest desired state (detect drift, plan, apply)
       - forge-manifest-init: Scaffold a .forge/manifest.yaml from current repo state
 
+  - name: nightingale-forge
+    type: knowledge
+    description: Failure study forge — reads session transcripts, extracts incidents, cross-references against StepProof runbooks
+    repo: eidos-agi/nightingale-forge
+    invocation: skill
+    prerequisites: { clone: true, pip: false }
+    artifacts: [.nightingale/incidents/, .nightingale/reports/]
+    example: "/nightingale study recent"
+    skills:
+      - nightingale-study: Read sessions, extract structured incident reports
+      - nightingale-report: Gap analysis — incidents vs StepProof runbooks
+      - nightingale-consult: Pre-flight briefing for risky operations
+      - nightingale-brief: Top 5 unprotected failure modes
+
   - name: foss-forge
     type: knowledge
     description: Open-source standards and marketing for agentic software
