@@ -175,6 +175,27 @@ forges:
       - improve: Score a project across 9 dimensions, fix the highest-impact gap, verify, record
       - improve-history: View improvement trends over time
 
+  - name: publish-forge
+    type: knowledge
+    description: Editorial orchestration — idea to published post with images, charts, and social derivatives
+    repo: eidos-agi/publish-forge
+    invocation: skill
+    prerequisites: { clone: true, pip: false }
+    artifacts: []
+    example: "/publish-blog"
+    skills:
+      - publish-blog: Compose brand-forge + image-forge + demo-forge + marketing-forge into a publishable post
+
+  - name: connection-forge
+    type: knowledge
+    description: Vendor integration contract factory — 7-phase lifecycle with per-field confidence scoring
+    repo: eidos-agi/connection-forge
+    invocation: skill
+    prerequisites: { clone: true, pip: false }
+    artifacts: [discovery/, lifecycle/, model/, schema/, templates/]
+    example: "See GETTING-STARTED.md"
+    skills: []
+
   - name: learning-forge
     type: knowledge
     description: Turn experience into improvement — capture learnings, route to projects and forges
