@@ -66,6 +66,25 @@ For each `.md` file in `.claude/skills/`:
 | Skills match files | Every skill listed in registry.yaml for this forge has a corresponding `.md` file in `.claude/skills/`. WARN if registry lists skills that don't exist as files (registry drift). |
 | Files match registry | Every `.md` file in `.claude/skills/` is listed in registry.yaml. WARN if orphan skills exist. |
 
+### Git Hygiene
+
+| Check | Criteria |
+|-------|---------|
+| Default branch is `main` | `git symbolic-ref --short HEAD` returns `main`. FAIL on `master` or other — ecosystem convention is `main`. (INC-005) |
+| Has GitHub remote | `git remote get-url origin` returns `eidos-agi/<forge-name>`. FAIL if missing — vision-only scratch is not a forge. (INC-003) |
+| Working tree not behind upstream | `git fetch && git rev-list --count HEAD..@{u}` returns 0. WARN otherwise — editing a stale working tree causes merge collisions. (INC-001) |
+| No generic "sync working state" commits ahead of upstream | `git log @{u}..HEAD --format=%s` contains no "chore: sync working state" or similar content-free messages. WARN if found. (INC-004) |
+
+### Registry Syntax (forge-forge only)
+
+When auditing forge-forge itself:
+
+| Check | Criteria |
+|-------|---------|
+| registry.yaml parses | `python -c "import yaml; yaml.safe_load(open('registry.yaml'))"` exits 0. FAIL otherwise — a broken registry poisons every `forge_find`, `forge_info`, `forge_how` call. (INC-006) |
+| Every entry has required fields | Each entry has `name`, `type`, `description`, `repo`, `invocation`, `prerequisites`. FAIL if any missing. |
+| No duplicate names | No two entries share a `name`. FAIL if duplicates exist. |
+
 ## Output Format
 
 ```

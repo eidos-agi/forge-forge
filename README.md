@@ -40,11 +40,21 @@ Every forge:
 | `/forge-init` | Create a new forge — repo structure, visionlog, GitHub, registry entry |
 | `/forge-audit` | Validate a forge against the Forge Standard |
 | `/forge-catalog` | List all forges with their skills and status |
-| `/forge-sync` | Check which forges are cloned locally, clone commands for missing ones |
+| `/forge-sync` | Three-way reconciliation: registry ↔ GitHub ↔ local filesystem |
 
 ## Registry
 
 [`registry.yaml`](registry.yaml) is the canonical list of all Eidos AGI forges.
+
+Enable the pre-commit hook to validate the registry before every commit:
+
+```bash
+git config core.hooksPath .githooks
+```
+
+The hook fails the commit if `registry.yaml` doesn't parse, is missing required
+fields, or has duplicate forge names. See `.nightingale/incidents/` for the
+failure modes the hook guards against.
 
 ## Usage
 

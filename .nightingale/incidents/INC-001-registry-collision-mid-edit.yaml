@@ -1,0 +1,29 @@
+id: INC-001
+date: 2026-04-22
+severity: HIGH
+operation: edit registry.yaml
+repeat_count: 1
+
+summary: |
+  A second session pushed 3 registry additions (nightingale, cli, mcp) while
+  the first session had uncommitted local edits to the same file. Caught before
+  push, required stash + replay.
+
+root_cause: |
+  forge-sync.md did not require `git pull --ff-only` before editing the
+  registry. The registry is shared state across sessions and has no locking.
+
+tools_involved: [Edit, Bash(git), registry.yaml]
+
+what_happened: |
+  1. Session A read registry.yaml, began editing to add publish-forge + connection-forge.
+  2. Session B (unseen) pushed commits adding nightingale-forge, cli-forge, mcp-forge.
+  3. Session A tried to commit + push, hit divergence. Had to stash, pull, re-apply.
+  4. Recovery succeeded but only because the changes were text-appends in non-overlapping regions. A YAML-level merge conflict would have been messier.
+
+protected_by: none
+
+recommended_gate: |
+  forge-sync skill already updated to require fetch + pull before editing
+  registry.yaml. Make this a forge-audit check too: audit fails if the
+  working tree is behind origin when a registry-edit skill is invoked.

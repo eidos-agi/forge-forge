@@ -1,0 +1,32 @@
+id: INC-003
+date: 2026-04-22
+severity: MEDIUM
+operation: scope a new forge
+repeat_count: 3
+
+summary: |
+  Three forges (adr-forge, memo-forge, sop-forge) were scoped on 2026-03-26
+  with a full .visionlog/ — vision, goals, guardrails, SOPs — then abandoned.
+  No git init, no README, no skills. Sat on disk for 27 days with no owner
+  and no surfacing.
+
+root_cause: |
+  /forge-init (or whatever created the scaffolds) generated a visionlog
+  without enforcing the Forge Standard minimum (git repo, README, LICENSE,
+  at least one skill stub). Nothing surfaced the orphan state back to the
+  user.
+
+tools_involved: [mkdir, visionlog scaffolding]
+
+what_happened: |
+  Three forges that look scaffolded but aren't: they cannot be cloned,
+  installed, audited, or registered. They are invisible to /forge-sync
+  until manual inspection.
+
+protected_by: none
+
+recommended_gate: |
+  1. /forge-init must refuse to finish without `git init` + GitHub repo creation.
+  2. /forge-sync already flags "local-only, vision-only" as a separate tier.
+  3. Add a TTL: visionlog-only scaffolds older than 14 days get flagged in
+     /forge-catalog as "abandoned scoping — promote or remove".

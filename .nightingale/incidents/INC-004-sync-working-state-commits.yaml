@@ -1,0 +1,32 @@
+id: INC-004
+date: 2026-04-22
+severity: MEDIUM
+operation: commit to a forge repo
+repeat_count: 2
+
+summary: |
+  Two forges (brand-forge, elt-forge) have commits literally titled
+  "chore: sync working state". These commits are content-free summaries
+  of drift, not actual work. brand-forge's local "sync" commit diverged
+  from the real feature commit "feat: add brand proof generator" on remote,
+  causing hard-to-resolve split history.
+
+root_cause: |
+  An automated "sync" or /land flow generated generic commits that mask
+  what actually changed. When two sides both have generic sync commits,
+  merging requires reading the diff to understand what was saved.
+
+tools_involved: [git commit, /land or similar auto-commit]
+
+what_happened: |
+  brand-forge: local main has `chore: sync working state`, remote main has
+  `feat: add brand proof generator`. Both sides 1 ahead / 1 behind. The
+  "sync" commit hides what's inside it, so a merge requires guesswork.
+
+protected_by: none
+
+recommended_gate: |
+  /land or equivalent auto-commit skills should refuse to commit with a
+  generic message when the diff contains feature work (new files,
+  non-trivial changes). Require a descriptive summary. Better still:
+  refuse to commit-and-push divergent branches without a merge first.

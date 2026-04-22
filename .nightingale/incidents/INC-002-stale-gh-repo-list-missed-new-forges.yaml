@@ -1,0 +1,29 @@
+id: INC-002
+date: 2026-04-22
+severity: MEDIUM
+operation: discover forges on GitHub
+repeat_count: 1
+
+summary: |
+  Initial `gh repo list eidos-agi` returned 23 forges. A later run returned 25
+  — cli-forge and mcp-forge had been created mid-session. Manual sweep would
+  have missed them. Only caught because three-way reconciliation script ran
+  against a fresh list.
+
+root_cause: |
+  One-shot discovery using the result of a prior command. Multi-session
+  ecosystems change under you; a list taken N minutes ago may already be stale.
+
+tools_involved: [Bash(gh repo list)]
+
+what_happened: |
+  First pass at 20:10-ish returned a 23-forge list that I treated as ground
+  truth while inspecting orphans. At 20:13 UTC two new repos appeared
+  (cli-forge, mcp-forge). Second reconciliation pass at 20:25 caught them.
+
+protected_by: none
+
+recommended_gate: |
+  forge-sync now runs its GitHub probe in the same command batch as the
+  reconciliation, not once at the top of the skill. Also: treat gh results
+  as a snapshot, not a cache — never reuse across skill invocations.

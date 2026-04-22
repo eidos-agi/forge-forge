@@ -1,0 +1,54 @@
+#!/usr/bin/env bash
+# forge-forge pre-commit — validate registry.yaml before every commit.
+# Gate for INC-006 (silent YAML parse break).
+#
+# Enable with:  git config core.hooksPath .githooks
+set -euo pipefail
+
+REPO_ROOT="$(git rev-parse --show-toplevel)"
+REG="$REPO_ROOT/registry.yaml"
+
+if ! git diff --cached --name-only | grep -q '^registry\.yaml$'; then
+  exit 0
+fi
+
+python3 - <<'PY'
+import sys
+try:
+    import yaml
+except ImportError:
+    print("pre-commit: PyYAML not installed — skipping registry validation", file=sys.stderr)
+    sys.exit(0)
+
+REG = "registry.yaml"
+try:
+    data = yaml.safe_load(open(REG))
+except yaml.YAMLError as e:
+    print(f"pre-commit FAIL: registry.yaml does not parse:\n{e}", file=sys.stderr)
+    sys.exit(1)
+
+forges = (data or {}).get("forges", [])
+if not forges:
+    print("pre-commit FAIL: registry.yaml has no 'forges' key", file=sys.stderr)
+    sys.exit(1)
+
+required = {"name", "type", "description", "repo", "invocation", "prerequisites"}
+errs = []
+names = []
+for i, f in enumerate(forges):
+    missing = required - f.keys()
+    if missing:
+        errs.append(f"  entry {i} ({f.get('name','?')}): missing {sorted(missing)}")
+    names.append(f.get("name"))
+
+dupes = {n for n in names if names.count(n) > 1 and n}
+if dupes:
+    errs.append(f"  duplicate names: {sorted(dupes)}")
+
+if errs:
+    print("pre-commit FAIL: registry.yaml invalid:", file=sys.stderr)
+    print("\n".join(errs), file=sys.stderr)
+    sys.exit(1)
+
+print(f"pre-commit OK: registry.yaml parses ({len(forges)} forges)")
+PY

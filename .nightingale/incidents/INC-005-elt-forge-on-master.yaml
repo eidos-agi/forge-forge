@@ -1,0 +1,27 @@
+id: INC-005
+date: 2026-04-22
+severity: LOW
+operation: clone and track a forge
+repeat_count: 1
+
+summary: |
+  elt-forge has default branch `master`, every other forge uses `main`.
+  The inconsistency was invisible until a drift scan ran `git symbolic-ref
+  --short HEAD`. Tooling that assumes `main` (e.g. `git log origin/main`)
+  silently returns empty.
+
+root_cause: |
+  No forge-audit check for default branch name. The Forge Standard doesn't
+  list `main` as a requirement.
+
+tools_involved: [git, forge-audit]
+
+what_happened: |
+  forge-audit passed. forge-sync's drift scan caught it only because the
+  new version prints the branch name explicitly.
+
+protected_by: partial (new forge-sync exposes it; forge-audit does not)
+
+recommended_gate: |
+  Add to forge-audit: fail if default branch != main. Rename elt-forge's
+  default branch to main (requires coordinated push + GitHub settings change).

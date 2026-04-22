@@ -1,0 +1,35 @@
+id: INC-006
+date: 2026-04-22
+severity: HIGH
+operation: edit registry.yaml
+repeat_count: 1
+
+summary: |
+  A skill description `"What should I watch for?" for a given operation`
+  — containing unescaped quotes + question mark inside a YAML flow — broke
+  yaml.safe_load silently. No lint, no CI, no pre-commit caught it.
+  forge_find / forge_list / forge_info / forge_how would have returned
+  stale cached data or failed on cold start.
+
+root_cause: |
+  The registry has no schema validation and no CI. Edits to registry.yaml
+  are not tested before push. The MCP server caches the first successful
+  load, so a syntax error that appears after caching wouldn't be noticed
+  until restart.
+
+tools_involved: [Edit, registry.yaml, PyYAML]
+
+what_happened: |
+  I added a nightingale skill line with unescaped quotes. Commit would have
+  landed on main and shipped to every consumer. Caught only because I ran
+  `python3 -c "yaml.safe_load(open('registry.yaml'))"` before committing.
+
+protected_by: none
+
+recommended_gate: |
+  1. Add a pre-commit hook in forge-forge: `python -c "import yaml;
+     yaml.safe_load(open('registry.yaml'))"` before every commit.
+  2. Add a CI check on push: validate registry.yaml + verify every forge
+     entry has required fields (name, type, repo, invocation, prerequisites).
+  3. /forge-audit when run against forge-forge itself must load and
+     validate the registry.
