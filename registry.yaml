@@ -197,6 +197,21 @@ forges:
     example: "See GETTING-STARTED.md"
     skills: []
 
+  - name: company-forge
+    type: knowledge
+    description: Company lifecycle operations — entity mapping, cleanup, evidence, correspondence, and closure
+    repo: eidos-agi/company-forge
+    invocation: skill
+    prerequisites: { clone: true, pip: false }
+    artifacts: [docs/, evidence/, templates/]
+    example: "/company-cleanup Howjadoo LLC"
+    skills:
+      - company-map: Build an evidence-backed map of entity facts, accounts, vendors, obligations, and gaps
+      - company-cleanup: Stabilize a stale or messy company file and produce an executable cleanup plan
+      - company-close: Wind down or close an entity across state, tax, bank, vendor, and confirmation surfaces
+      - company-evidence: Create and maintain the company evidence index and archive structure
+      - company-correspondence: Draft precise company cleanup emails, call scripts, and support requests
+
   - name: learning-forge
     type: knowledge
     description: Turn experience into improvement — capture learnings, route to projects and forges
