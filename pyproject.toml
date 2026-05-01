@@ -4,8 +4,8 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "forge-forge"
-version = "0.1.0"
-description = "Forge router — directs agents to the right Eidos forge"
+version = "0.2.0"
+description = "Forge router — directs agents to the right Eidos forge (CLI + MCP)"
 requires-python = ">=3.11"
 license = "MIT"
 authors = [{name = "Daniel Shanklin", email = "daniel@eidosagi.com"}]
@@ -15,7 +15,8 @@ dependencies = [
 ]
 
 [project.scripts]
+forge = "cli:main"
 forge-forge-mcp = "mcp_server:main"
 
 [tool.setuptools]
-py-modules = ["mcp_server"]
+py-modules = ["mcp_server", "cli", "lib"]
