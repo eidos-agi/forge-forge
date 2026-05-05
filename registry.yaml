@@ -224,6 +224,20 @@ forges:
       - learn: Extract, classify, and route learnings from a session to specific destinations
       - learn-review: Aggregate learnings across ecosystem, find patterns and repeat offenders
 
+  - name: landfall-forge
+    type: knowledge
+    description: Purpose-specific repo arrival rituals — refresh evidence, update tasks, and stop before human-only actions
+    repo: eidos-agi/landfall-forge
+    invocation: skill
+    prerequisites: { clone: true, pip: false }
+    artifacts: [landfalls/]
+    example: "/landfall-run payables-landfall"
+    skills:
+      - landfall-map: Inventory useful landfalls for a repo and find coverage gaps
+      - landfall-design: Write a repo-local landfall definition under landfalls/
+      - landfall-run: Execute a landfall and update repo state from fresh evidence
+      - landfall-audit: Check landfall quality, coverage, overlap, and safety
+
   - name: brutal-forge
     type: knowledge
     description: Zero-mercy software quality demolition — 5-angle attack ranked by user pain
