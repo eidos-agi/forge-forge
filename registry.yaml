@@ -231,8 +231,9 @@ forges:
     invocation: skill
     prerequisites: { clone: true, pip: false }
     artifacts: [landfalls/]
-    example: "/landfall-run payables-landfall"
+    example: "/landfall"
     skills:
+      - landfall: Codex wrapper that reads repo-local landfalls and falls back through forge-forge when none exist
       - landfall-map: Inventory useful landfalls for a repo and find coverage gaps
       - landfall-design: Write a repo-local landfall definition under landfalls/
       - landfall-run: Execute a landfall and update repo state from fresh evidence
