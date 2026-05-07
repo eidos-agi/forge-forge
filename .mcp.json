@@ -1,0 +1,10 @@
+{
+  "mcpServers": {
+    "forge-forge": {
+      "transport": "stdio",
+      "command": "/Users/dshanklinbv/repos-eidos-agi/forge-forge/.venv/bin/forge-forge-mcp",
+      "args": [],
+      "tool_timeout_sec": 600
+    }
+  }
+}
