@@ -40,6 +40,8 @@
       "List the current Eidos forges.",
       "Show how to use company-forge or another domain forge."
     ],
-    "brandColor": "#7C3AED"
+    "brandColor": "#7C3AED",
+    "composerIcon": "./assets/plugin-icon.svg",
+    "logo": "./assets/plugin-logo.svg"
   }
 }
