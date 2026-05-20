@@ -226,7 +226,7 @@ forges:
 
   - name: landfall-forge
     type: knowledge
-    description: Hungry Hungry Hippos for data — repo-local arrival rituals that refresh evidence, update tasks, and stop before human-only actions
+    description: Repo-local arrival rituals for edge-case data. Agents refresh evidence, update declared files, and stop before human-only actions
     repo: eidos-agi/landfall-forge
     invocation: cli
     prerequisites: { clone: true, pip: true }
