@@ -226,7 +226,7 @@ forges:
 
   - name: landfall-forge
     type: knowledge
-    description: Repo-local arrival rituals for edge-case data. Agents refresh evidence, update declared files, and stop before human-only actions
+    description: On-the-fly imports for messy data. Agents collect irregular sources, preserve evidence, update durable state, and stop before human-only actions
     repo: eidos-agi/landfall-forge
     invocation: cli
     prerequisites: { clone: true, pip: true }
@@ -234,10 +234,10 @@ forges:
     example: "landfall run relationship-intel --write-report"
     logo: /forges/landfall-logo.png
     skills:
-      - landfall: Codex wrapper that reads repo-local landfalls and falls back through forge-forge when none exist
-      - landfall-map: Inventory useful landfalls for a repo and find coverage gaps
-      - landfall-design: Write a repo-local landfall definition under landfalls/
-      - landfall-run: Execute a landfall and update repo state from fresh evidence
+      - landfall: Codex wrapper that reads saved landfalls and falls back through forge-forge when none exist
+      - landfall-map: Inventory useful messy-data import rituals and find coverage gaps
+      - landfall-design: Write a saved landfall definition under landfalls/
+      - landfall-run: Execute a landfall and update durable state from fresh evidence
       - landfall-audit: Check landfall quality, coverage, overlap, and safety
 
   - name: brutal-forge
