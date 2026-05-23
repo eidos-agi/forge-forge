@@ -1,5 +1,7 @@
 LICENSE
 README.md
+cli.py
+lib.py
 mcp_server.py
 pyproject.toml
 forge_forge.egg-info/PKG-INFO
@@ -8,3 +10,4 @@ forge_forge.egg-info/dependency_links.txt
 forge_forge.egg-info/entry_points.txt
 forge_forge.egg-info/requires.txt
 forge_forge.egg-info/top_level.txt
+tests/test_cli.py

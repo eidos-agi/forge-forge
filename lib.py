@@ -257,9 +257,24 @@ def recommend_for_project(path: str = ".", description: str = "") -> dict:
         "has_forge_provenance": (p / ".forge" / "installed.yaml").exists(),
     }
 
-    for f in p.glob("*.py"):
+    mcp_signal_paths = [
+        p / "mcp_server.py",
+        p / "scripts" / "mcp_server.py",
+        p / "packages" / "foreman-mcp",
+        p / ".mcp.json",
+    ]
+    if any(path.exists() for path in mcp_signal_paths):
+        signals["has_mcp"] = True
+
+    candidate_python_files = (
+        list(p.glob("*.py"))
+        + list(p.glob("scripts/*.py"))
+        + list(p.glob("packages/*/scripts/*.py"))
+    )
+    for f in candidate_python_files:
         try:
-            if "FastMCP" in f.read_text(errors="ignore")[:5000]:
+            text = f.read_text(errors="ignore")[:8000]
+            if "FastMCP" in text or "mcp.server" in text or "MCP" in text:
                 signals["has_mcp"] = True
                 break
         except Exception:

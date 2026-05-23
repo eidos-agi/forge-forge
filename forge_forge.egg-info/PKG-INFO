@@ -1,7 +1,7 @@
 Metadata-Version: 2.4
 Name: forge-forge
-Version: 0.1.0
-Summary: Forge router — directs agents to the right Eidos forge
+Version: 0.2.0
+Summary: Forge router — directs agents to the right Eidos forge (CLI + MCP)
 Author-email: Daniel Shanklin <daniel@eidosagi.com>
 License-Expression: MIT
 Requires-Python: >=3.11

@@ -4,6 +4,7 @@ import json
 import os
 import subprocess
 import sys
+from pathlib import Path
 
 REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -108,6 +109,26 @@ def test_for_project_recommends_for_self() -> None:
     # forge-forge has all the signals: pyproject, license, MCP file
     assert "ship-forge" in rec_names
     assert "foss-forge" in rec_names
+
+
+def test_for_project_accepts_positional_path() -> None:
+    result = _run("for-project", REPO, "--json")
+    payload = json.loads(result.stdout)
+    assert payload["project"] == REPO
+
+
+def test_for_project_detects_nested_mcp_project(tmp_path: Path) -> None:
+    (tmp_path / "packages" / "sample-mcp" / "scripts").mkdir(parents=True)
+    (tmp_path / "packages" / "sample-mcp" / "scripts" / "mcp_server.py").write_text(
+        "from mcp.server.fastmcp import FastMCP\n",
+        encoding="utf-8",
+    )
+
+    result = _run("for-project", str(tmp_path), "--json")
+    payload = json.loads(result.stdout)
+    rec_names = {r["name"] for r in payload.get("recommended", [])}
+    assert payload["signals"]["has_mcp"] is True
+    assert "ship-forge" in rec_names
 
 
 def test_help_lists_every_subcommand() -> None:

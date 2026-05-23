@@ -15,7 +15,7 @@ Examples:
   forge list --type tool             # only tool-type forges
   forge info ml-forge                # full details on one forge
   forge how cli-forge                # invocation instructions
-  forge for-project --path .         # recommendations for the current project
+  forge for-project .                # recommendations for the current project
 """
 
 from __future__ import annotations
@@ -108,7 +108,12 @@ def _build_parser() -> argparse.ArgumentParser:
             "and recommend forges that would help."
         ),
     )
-    for_proj_p.add_argument("--path", default=".", help="Project root path (default: cwd).")
+    for_proj_p.add_argument("path_arg", nargs="?", help="Project root path (default: cwd).")
+    for_proj_p.add_argument(
+        "--path",
+        default=None,
+        help="Project root path (default: cwd). Positional path is also accepted.",
+    )
     for_proj_p.add_argument(
         "--description", default="", help="Optional project description for finer recommendations."
     )
@@ -317,7 +322,7 @@ def main(argv: list[str] | None = None) -> int:
         return 0
 
     if args.cmd == "for-project":
-        result = lib.recommend_for_project(args.path, args.description)
+        result = lib.recommend_for_project(args.path or args.path_arg or ".", args.description)
         plain, quiet_text = _format_for_project(result)
         _emit(
             json_payload=result,
