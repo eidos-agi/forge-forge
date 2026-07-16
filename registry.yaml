@@ -212,6 +212,17 @@ forges:
       - company-evidence: Create and maintain the company evidence index and archive structure
       - company-correspondence: Draft precise company cleanup emails, call scripts, and support requests
 
+  - name: textbook-forge
+    type: knowledge
+    description: Make any document read like a professionally typeset textbook — EBW/Ketida design system, distilled
+    repo: eidos-agi/textbook-forge
+    invocation: skill
+    prerequisites: { clone: true, pip: false }
+    artifacts: []
+    example: "/textbook-style this report"
+    skills:
+      - textbook-style: Apply the textbook design system (5 themes) to any HTML document or artifact
+
   - name: learning-forge
     type: knowledge
     description: Turn experience into improvement — capture learnings, route to projects and forges
