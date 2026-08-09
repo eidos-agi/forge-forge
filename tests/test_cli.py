@@ -56,7 +56,11 @@ def test_list_quiet_one_per_line() -> None:
     result = _run("list", "--quiet")
     names = [n for n in result.stdout.strip().split("\n") if n]
     assert len(names) > 5
-    assert all("forge" in n.lower() for n in names)
+    # Registry is mostly *-forge; shipr/testr are operator successors (not named *forge).
+    allowed_ops = {"shipr", "testr"}
+    assert all(("forge" in n.lower()) or (n in allowed_ops) for n in names)
+    assert "shipr" in names
+    assert "testr" in names
 
 
 def test_list_filter_by_type() -> None:
@@ -107,7 +111,7 @@ def test_for_project_recommends_for_self() -> None:
     payload = json.loads(result.stdout)
     rec_names = {r["name"] for r in payload.get("recommended", [])}
     # forge-forge has all the signals: pyproject, license, MCP file
-    assert "ship-forge" in rec_names
+    assert "shipr" in rec_names
     assert "foss-forge" in rec_names
 
 
@@ -128,7 +132,7 @@ def test_for_project_detects_nested_mcp_project(tmp_path: Path) -> None:
     payload = json.loads(result.stdout)
     rec_names = {r["name"] for r in payload.get("recommended", [])}
     assert payload["signals"]["has_mcp"] is True
-    assert "ship-forge" in rec_names
+    assert "shipr" in rec_names
 
 
 def test_help_lists_every_subcommand() -> None:

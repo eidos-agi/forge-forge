@@ -1,395 +1,507 @@
-## Knowledge Forges (skills + templates, no software)
-
 forges:
-  # --- Knowledge Forges ---
-
-  - name: forge-forge
-    type: knowledge
-    description: Meta-forge for creating and managing forges
-    repo: eidos-agi/forge-forge
-    invocation: skill
-    prerequisites: { clone: true, pip: false }
-    artifacts: [.forge/manifest.yaml]
-    example: "/forge-manifest-init"
-    skills:
-      - forge-init: Scaffold a new forge
-      - forge-audit: Audit a forge against the Forge Standard
-      - forge-catalog: List all forges in the ecosystem
-      - forge-sync: Three-way reconciliation (registry vs GitHub vs local)
-      - forge-publish: Sync registry.yaml → eidosagi.com/forges page
-      - forge-enforce: Enforce manifest desired state (detect drift, plan, apply)
-      - forge-manifest-init: Scaffold a .forge/manifest.yaml from current repo state
-
-  - name: cli-forge
-    type: knowledge
-    description: Convert MCP servers into agent-first CLIs — kill the token tax
-    repo: eidos-agi/cli-forge
-    invocation: skill
-    prerequisites: { clone: true, pip: false }
-    artifacts: []
-    example: "/cli-forge audit"
-    skills:
-      - cli-forge-audit: Analyze an MCP — tool count, token cost, usage, extract candidates
-      - cli-forge-convert: Generate CLI source from MCP tool definitions
-      - cli-forge-skill: Generate agent skill file for the new CLI
-
-  - name: mcp-forge
-    type: knowledge
-    description: Build MCP servers the right way — from API design through marketplace distribution
-    repo: eidos-agi/mcp-forge
-    invocation: skill
-    prerequisites: { clone: true, pip: false }
-    artifacts: []
-    example: "/mcp-forge init"
-    skills:
-      - mcp-forge-init: Scaffold new MCP server (TypeScript or Python)
-      - mcp-forge-tool: Add a tool with schema + handler + test
-      - mcp-forge-channel: Add channel capability for messaging bridges
-      - mcp-forge-test: Generate test harness
-      - mcp-forge-publish: Package for Eidos marketplace
-
-  - name: nightingale-forge
-    type: knowledge
-    description: Failure study forge — reads session transcripts, extracts incidents, cross-references against StepProof runbooks
-    repo: eidos-agi/nightingale-forge
-    invocation: skill
-    prerequisites: { clone: true, pip: false }
-    artifacts: [.nightingale/incidents/, .nightingale/reports/]
-    example: "/nightingale study recent"
-    skills:
-      - nightingale-study: Read sessions, extract structured incident reports
-      - nightingale-report: Gap analysis — incidents vs StepProof runbooks
-      - nightingale-consult: Pre-flight briefing for risky operations
-      - nightingale-brief: Top 5 unprotected failure modes
-
-  - name: foss-forge
-    type: knowledge
-    description: Open-source standards and marketing for agentic software
-    repo: eidos-agi/foss-forge
-    invocation: skill
-    prerequisites: { clone: true, pip: false }
-    artifacts: [LICENSE, CONTRIBUTING.md, CHANGELOG.md, CODE_OF_CONDUCT.md, SECURITY.md]
-    example: "/foss-check"
-    skills:
-      - foss-check: Audit a repo against FOSS standards
-      - foss-init: Scaffold missing community health files
-      - foss-release: Guided PyPI release
-      - foss-launch: Marketing playbook
-      - foss-demo: Demo assessment (delegates to demo-forge)
-
-  - name: demo-forge
-    type: knowledge
-    description: AI-generated demo content — GIFs, SVGs, screenshots, diagrams, social cards
-    repo: eidos-agi/demo-forge
-    invocation: skill
-    prerequisites: { clone: true, pip: false }
-    artifacts: [demo/]
-    example: "/demo"
-    skills:
-      - demo: Generate demo content for a project
-      - demo-audit: Assess demo quality and freshness
-      - demo-clean: Remove intermediate files and update .gitignore
-
-  - name: security-forge
-    type: knowledge
-    description: Security auditing and hardening for agentic software
-    repo: eidos-agi/security-forge
-    invocation: skill
-    prerequisites: { clone: true, pip: false }
-    artifacts: [SECURITY.md]
-    example: "/sec-audit"
-    skills:
-      - sec-audit: Full security audit (secrets, deps, agentic threats, pre-release)
-      - sec-scan: Quick secret and vulnerability scan
-      - sec-threat-model: Generate STRIDE-A agentic threat model
-
-  - name: ship-forge
-    type: knowledge
-    description: Shipping standards — CI/CD, QA, code quality, deployment, release hygiene
-    repo: eidos-agi/ship-forge
-    invocation: skill
-    prerequisites: { clone: true, pip: false }
-    artifacts: [.github/workflows/ci.yml, .github/workflows/publish.yml, .pre-commit-config.yaml]
-    example: "/ship-check"
-    skills:
-      - ship-full-audit: Run ALL forges against a project (foss-check → sec-audit → ship-check → ship-qa → forge-enforce)
-      - ship-check: Pre-ship audit (clean tree, build verification, install-test artifacts)
-      - ship-init: Scaffold shipping infrastructure (pre-commit, CI, .gitignore)
-      - ship-release: End-to-end release pipeline with artifact verification
-      - ship-deploy: Railway deployment checklist (health checks, SIGTERM, env vars)
-      - ship-qa: MCP server QA (schemas, descriptions, errors, behavior testing)
-
-  - name: shopping-forge
-    type: knowledge
-    description: AI-powered grocery shopping — meal planning, cart optimization, multi-store orchestration
-    repo: eidos-agi/shopping-forge
-    invocation: skill
-    prerequisites: { clone: true, pip: false }
-    artifacts: []
-    example: "/shop-plan"
-    skills:
-      - shop-plan: Meal-to-list pipeline — preferences → meal plan → shopping list (Omni-backed memory)
-      - shop-store: Store integration knowledge base — MCP capabilities, auth, rate limits, gotchas
-      - shop-cart: Cart orchestration — product matching, bulk-add, human review gate
-
-  - name: ml-forge
-    type: knowledge
-    description: Solve software problems with ML, not just LLMs — small local models as static artifacts
-    repo: eidos-agi/ml-forge
-    invocation: skill
-    prerequisites: { clone: true, pip: false }
-    artifacts: [models/]
-    example: "/ml-assess"
-    skills:
-      - ml-pick: Choose the right intelligence level (rules → ML → embeddings → SLMs → LLMs)
-      - ml-find: Search HuggingFace and model registries for pre-trained models
-      - ml-assess: Evaluate whether a problem is ML-shaped
-      - ml-extract: Design feature extraction from local signals
-      - ml-train: Build offline training with proper evaluation
-      - ml-ship: Package model as minimal static artifact
-      - ml-evaluate: Model quality report with baseline comparison
-    reference_skills: 19  # technique library on deck (class-imbalance, ensemble-voting, etc.)
-
-  - name: refactor-forge
-    type: knowledge
-    description: Language migrations and rewrites with behavioral parity testing
-    repo: eidos-agi/refactor-forge
-    invocation: skill
-    prerequisites: { clone: true, pip: false }
-    artifacts: [.refactor/fixtures/]
-    example: "/refactor-capture"
-    skills:
-      - refactor-capture: Capture golden fixtures from the original implementation
-      - refactor-port: Port one tool at a time with exact behavioral match
-      - refactor-verify: Replay fixtures against the port, report pass/fail with diffs
-      - refactor-migrate: Full cutover with backup preservation
-
-  - name: improve-forge
-    type: knowledge
-    description: Systematically improve any project — score, prioritize, fix, verify, leave it better
-    repo: eidos-agi/improve-forge
-    invocation: skill
-    prerequisites: { clone: true, pip: false }
-    artifacts: []
-    example: "/improve"
-    skills:
-      - improve: Score a project across 9 dimensions, fix the highest-impact gap, verify, record
-      - improve-history: View improvement trends over time
-
-  - name: publish-forge
-    type: knowledge
-    description: Editorial orchestration — idea to published post with images, charts, and social derivatives
-    repo: eidos-agi/publish-forge
-    invocation: skill
-    prerequisites: { clone: true, pip: false }
-    artifacts: []
-    example: "/publish-blog"
-    skills:
-      - publish-blog: Compose brand-forge + image-forge + demo-forge + marketing-forge into a publishable post
-
-  - name: connection-forge
-    type: knowledge
-    description: Vendor integration contract factory — 7-phase lifecycle with per-field confidence scoring
-    repo: eidos-agi/connection-forge
-    invocation: skill
-    prerequisites: { clone: true, pip: false }
-    artifacts: [discovery/, lifecycle/, model/, schema/, templates/]
-    example: "See GETTING-STARTED.md"
-    skills: []
-
-  - name: company-forge
-    type: knowledge
-    description: Company lifecycle operations — entity mapping, cleanup, evidence, correspondence, and closure
-    repo: eidos-agi/company-forge
-    invocation: skill
-    prerequisites: { clone: true, pip: false }
-    artifacts: [docs/, evidence/, templates/]
-    example: "/company-cleanup Howjadoo LLC"
-    skills:
-      - company-map: Build an evidence-backed map of entity facts, accounts, vendors, obligations, and gaps
-      - company-cleanup: Stabilize a stale or messy company file and produce an executable cleanup plan
-      - company-close: Wind down or close an entity across state, tax, bank, vendor, and confirmation surfaces
-      - company-evidence: Create and maintain the company evidence index and archive structure
-      - company-correspondence: Draft precise company cleanup emails, call scripts, and support requests
-
-  - name: textbook-forge
-    type: knowledge
-    description: Make any document read like a professionally typeset textbook — EBW/Ketida design system, distilled
-    repo: eidos-agi/textbook-forge
-    invocation: skill
-    prerequisites: { clone: true, pip: false }
-    artifacts: []
-    example: "/textbook-style this report"
-    skills:
-      - textbook-style: Apply the textbook design system (5 themes) to any HTML document or artifact
-
-  - name: learning-forge
-    type: knowledge
-    description: Turn experience into improvement — capture learnings, route to projects and forges
-    repo: eidos-agi/learning-forge
-    invocation: skill
-    prerequisites: { clone: true, pip: false }
-    artifacts: []
-    example: "/learn"
-    skills:
-      - learn: Extract, classify, and route learnings from a session to specific destinations
-      - learn-review: Aggregate learnings across ecosystem, find patterns and repeat offenders
-
-  - name: landfall-forge
-    type: knowledge
-    description: On-the-fly imports for messy data. Agents collect irregular sources, preserve evidence, update durable state, and stop before human-only actions
-    repo: eidos-agi/landfall-forge
-    invocation: cli
-    prerequisites: { clone: true, pip: true }
-    artifacts: [landfalls/, .landfall/runs/]
-    example: "landfall run relationship-intel --write-report"
-    logo: /forges/landfall-logo.png
-    skills:
-      - landfall: Codex wrapper that reads saved landfalls and falls back through forge-forge when none exist
-      - landfall-map: Inventory useful messy-data import rituals and find coverage gaps
-      - landfall-design: Write a saved landfall definition under landfalls/
-      - landfall-run: Execute a landfall and update durable state from fresh evidence
-      - landfall-audit: Check landfall quality, coverage, overlap, and safety
-
-  - name: brutal-forge
-    type: knowledge
-    description: Zero-mercy software quality demolition — 5-angle attack ranked by user pain
-    repo: eidos-agi/brutal-forge
-    invocation: skill
-    prerequisites: { clone: true, pip: false }
-    artifacts: [findings/]
-    example: "/brutalize"
-    skills:
-      - brutalize: Full 5-angle codebase demolition (code, UX, reliability, product, ops)
-      - roast: Line-by-line single-file destruction
-      - compare: Feature gap analysis against competitors
-      - shame-board: Worst findings across all brutalized projects
-
-  - name: loss-forge
-    type: knowledge
-    description: Measurable improvement for AI-operated systems — loss functions + mission scores
-    repo: eidos-agi/loss-forge
-    invocation: skill
-    prerequisites: { clone: true, pip: false }
-    artifacts: [loss.py, LOSS-BASELINE.md, .forge/installed.yaml]
-    example: "/loss-init"
-    skills:
-      - loss-init: Define loss functions and mission scores for any project
-      - loss-check: Before/after comparison — verdict on whether a change helped or hurt
-      - loss-audit: Validate loss function quality, coverage, and gameability
-
-  # --- Tool Forges (MCP servers / software that forge things) ---
-
-  - name: test-forge
-    type: tool
-    description: Intelligent testing — point at anything, say "test this"
-    repo: eidos-agi/test-forge
-    invocation: mcp
-    prerequisites: { clone: false, pip: true }
-    artifacts: [tests/]
-    example: "test_this(target='src/')"
-    tools:
-      - test_this: Test any target with structured evidence
-      - whats_wrong: Deep diagnosis with full LLM intelligence
-      - test_these: Batch test multiple targets
-      - playbooks: List available testing playbooks
-      - read_notes: Read handoff letter from prior robot
-
-  - name: book-forge
-    type: tool
-    description: Complete book publishing pipeline — markdown to EPUB/PDF/HTML/audiobook
-    repo: eidos-agi/book-forge
-    invocation: mcp
-    prerequisites: { clone: false, pip: true }
-    artifacts: [build/]
-    example: "book_build(format='epub')"
-    tools:
-      - book_build: Build into EPUB, PDF, HTML, web, audiobook
-      - book_check: Quality checks (broken images, consistency, TODOs)
-      - book_stats: Word counts, reading time, figure index
-      - book_cover: Generate cover artwork + text overlay
-      - book_pipeline_status: Stage completion status
-      - book_pipeline_run: Run, pass/fail/skip, or reset stages
-
-  - name: elt-forge
-    type: tool
-    description: Data pipeline framework — medallion architecture with contracts and audit
-    repo: eidos-agi/elt-forge
-    invocation: mcp
-    prerequisites: { clone: false, pip: true }
-    artifacts: []
-    example: "elt_forge(action='add_source')"
-    tools:
-      - elt_forge: Stateful workflow engine (add source, scaffold views, validate)
-      - elt_forge_learn: Knowledge base — patterns, profiles, conventions
-      - elt_forge_audit: Pattern compliance audit with grade + findings
-      - elt_forge_remember: Store per-app learnings
-      - elt_forge_recall: Retrieve stored learnings
-      - elt_forge_contract_check: Check contract coverage + violations
-      - elt_forge_contract_generate: Generate contract stubs from YAML
-
-  - name: image-forge
-    type: tool
-    description: AI image generation — concept interviews, generation, editing, book covers
-    repo: eidos-agi/image-forge
-    invocation: mcp
-    prerequisites: { clone: false, pip: true }
-    artifacts: []
-    example: "image_generate(prompt='...')"
-    tools:
-      - image_concept: Creative briefing — analyze context, propose visual concepts
-      - image_generate: Text-to-image generation
-      - image_edit: Edit existing image with prompt
-      - image_cover: Generate book cover artwork
-
-  - name: underwriting-forge
-    type: tool
-    description: Deal underwriting suite — load to decision with conviction scoring
-    repo: eidos-agi/underwriting-forge
-    invocation: mcp
-    prerequisites: { clone: false, pip: true }
-    artifacts: [deals/]
-    example: "deal_load(path='deal.yaml')"
-    tools:
-      - deal_load: Load deal from YAML + folder
-      - deal_status: Current phase, blockers, findings, conviction
-      - deal_advance: Move to next phase
-      - deal_answer_question: Answer due diligence question
-      - deal_score_conviction: Score conviction (0-10)
-      - deal_compute_model: Build financial model
-      - deal_run_scenarios: Run scenario analysis
-      - deal_set_recommendation: Set final recommendation
-      - deal_write_decision: Write decision memo
-      - deal_generate_xlsx: Generate workbook with all models
-      # Plus 15 more tools for blockers, flags, risk, cap table, waterfall, etc.
-
-  - name: brand-forge
-    type: tool
-    description: Generate every brand asset in one command — OG images, social, banners, print
-    repo: eidos-agi/brand-forge
-    invocation: cli
-    prerequisites: { clone: false, pip: true }
-    artifacts: [brand/]
-    example: "generate_all"
-    tools:
-      - generate_all: Generate all brand assets from definition (CLI)
-
-  - name: video-forge
-    type: tool
-    description: Cinematic brand video production — 11-stage pipeline from intake to deliver
-    repo: eidos-agi/video-forge
-    invocation: skill
-    prerequisites: { clone: true, pip: false }
-    artifacts: []
-    example: "(pipeline design only — not yet built)"
-    tools: []  # Pipeline design only, no MCP tools yet
-
-  - name: marketing-forge
-    type: tool
-    description: Distribution + measurement — tracked URLs, local SEO, campaign copy
-    repo: eidos-agi/marketing-forge
-    invocation: skill
-    prerequisites: { clone: true, pip: false }
-    artifacts: []
-    example: "(thesis stage — not yet built)"
-    tools: []  # Thesis stage, no tools yet
+- name: forge-forge
+  type: knowledge
+  description: Meta-forge for creating and managing forges
+  repo: eidos-agi/forge-forge
+  invocation: skill
+  prerequisites:
+    clone: true
+    pip: false
+  artifacts:
+  - .forge/manifest.yaml
+  example: /forge-manifest-init
+  skills:
+  - forge-init: Scaffold a new forge
+  - forge-audit: Audit a forge against the Forge Standard
+  - forge-catalog: List all forges in the ecosystem
+  - forge-sync: Three-way reconciliation (registry vs GitHub vs local)
+  - forge-publish: Sync registry.yaml → eidosagi.com/forges page
+  - forge-enforce: Enforce manifest desired state (detect drift, plan, apply)
+  - forge-manifest-init: Scaffold a .forge/manifest.yaml from current repo state
+- name: cli-forge
+  type: knowledge
+  description: Convert MCP servers into agent-first CLIs — kill the token tax
+  repo: eidos-agi/cli-forge
+  invocation: skill
+  prerequisites:
+    clone: true
+    pip: false
+  artifacts: []
+  example: /cli-forge audit
+  skills:
+  - cli-forge-audit: Analyze an MCP — tool count, token cost, usage, extract candidates
+  - cli-forge-convert: Generate CLI source from MCP tool definitions
+  - cli-forge-skill: Generate agent skill file for the new CLI
+- name: mcp-forge
+  type: knowledge
+  description: Build MCP servers the right way — from API design through marketplace distribution
+  repo: eidos-agi/mcp-forge
+  invocation: skill
+  prerequisites:
+    clone: true
+    pip: false
+  artifacts: []
+  example: /mcp-forge init
+  skills:
+  - mcp-forge-init: Scaffold new MCP server (TypeScript or Python)
+  - mcp-forge-tool: Add a tool with schema + handler + test
+  - mcp-forge-channel: Add channel capability for messaging bridges
+  - mcp-forge-test: Generate test harness
+  - mcp-forge-publish: Package for Eidos marketplace
+- name: nightingale-forge
+  type: knowledge
+  description: Failure study forge — reads session transcripts, extracts incidents, cross-references against
+    StepProof runbooks
+  repo: eidos-agi/nightingale-forge
+  invocation: skill
+  prerequisites:
+    clone: true
+    pip: false
+  artifacts:
+  - .nightingale/incidents/
+  - .nightingale/reports/
+  example: /nightingale study recent
+  skills:
+  - nightingale-study: Read sessions, extract structured incident reports
+  - nightingale-report: Gap analysis — incidents vs StepProof runbooks
+  - nightingale-consult: Pre-flight briefing for risky operations
+  - nightingale-brief: Top 5 unprotected failure modes
+- name: foss-forge
+  type: knowledge
+  description: Open-source standards and marketing for agentic software
+  repo: eidos-agi/foss-forge
+  invocation: skill
+  prerequisites:
+    clone: true
+    pip: false
+  artifacts:
+  - LICENSE
+  - CONTRIBUTING.md
+  - CHANGELOG.md
+  - CODE_OF_CONDUCT.md
+  - SECURITY.md
+  example: /foss-check
+  skills:
+  - foss-check: Audit a repo against FOSS standards
+  - foss-init: Scaffold missing community health files
+  - foss-release: Guided PyPI release
+  - foss-launch: Marketing playbook
+  - foss-demo: Demo assessment (delegates to demo-forge)
+- name: demo-forge
+  type: knowledge
+  description: AI-generated demo content — GIFs, SVGs, screenshots, diagrams, social cards
+  repo: eidos-agi/demo-forge
+  invocation: skill
+  prerequisites:
+    clone: true
+    pip: false
+  artifacts:
+  - demo/
+  example: /demo
+  skills:
+  - demo: Generate demo content for a project
+  - demo-audit: Assess demo quality and freshness
+  - demo-clean: Remove intermediate files and update .gitignore
+- name: security-forge
+  type: knowledge
+  description: Security auditing and hardening for agentic software
+  repo: eidos-agi/security-forge
+  invocation: skill
+  prerequisites:
+    clone: true
+    pip: false
+  artifacts:
+  - SECURITY.md
+  example: /sec-audit
+  skills:
+  - sec-audit: Full security audit (secrets, deps, agentic threats, pre-release)
+  - sec-scan: Quick secret and vulnerability scan
+  - sec-threat-model: Generate STRIDE-A agentic threat model
+- name: ship-forge
+  type: knowledge
+  description: RETIRED pointer — shipping methods live in shipr. AI shipping config + release memory under
+    .shipr/ (not a deploy runner). Use shipr model/attempt/frontier; compose with testr for proofs.
+  repo: eidos-agi/ship-forge
+  invocation: skill
+  prerequisites:
+    clone: true
+    pip: false
+  artifacts:
+  - .shipr/product-release-model.json
+  example: go install github.com/eidos-agi/shipr/cmd/shipr@latest && shipr model --write --json
+  skills:
+  - use-shipr: 'Canonical: AI shipping config — model, attempt, frontier (eidos-agi/shipr)'
+  - ship-check: Historical skill body under shipr/docs/methods/
+  - ship-init: Historical — shipr/docs/methods/ + templates/
+  - ship-release: Historical — shipr/docs/methods/ship-release.md
+  - ship-deploy: Historical — shipr/docs/methods/ship-deploy.md
+  - ship-qa: Historical — shipr/docs/methods/ship-qa.md
+  status: retired
+  successor: shipr
+  successor_repo: eidos-agi/shipr
+- name: shopping-forge
+  type: knowledge
+  description: AI-powered grocery shopping — meal planning, cart optimization, multi-store orchestration
+  repo: eidos-agi/shopping-forge
+  invocation: skill
+  prerequisites:
+    clone: true
+    pip: false
+  artifacts: []
+  example: /shop-plan
+  skills:
+  - shop-plan: Meal-to-list pipeline — preferences → meal plan → shopping list (Omni-backed memory)
+  - shop-store: Store integration knowledge base — MCP capabilities, auth, rate limits, gotchas
+  - shop-cart: Cart orchestration — product matching, bulk-add, human review gate
+- name: ml-forge
+  type: knowledge
+  description: Solve software problems with ML, not just LLMs — small local models as static artifacts
+  repo: eidos-agi/ml-forge
+  invocation: skill
+  prerequisites:
+    clone: true
+    pip: false
+  artifacts:
+  - models/
+  example: /ml-assess
+  skills:
+  - ml-pick: Choose the right intelligence level (rules → ML → embeddings → SLMs → LLMs)
+  - ml-find: Search HuggingFace and model registries for pre-trained models
+  - ml-assess: Evaluate whether a problem is ML-shaped
+  - ml-extract: Design feature extraction from local signals
+  - ml-train: Build offline training with proper evaluation
+  - ml-ship: Package model as minimal static artifact
+  - ml-evaluate: Model quality report with baseline comparison
+  reference_skills: 19
+- name: refactor-forge
+  type: knowledge
+  description: Language migrations and rewrites with behavioral parity testing
+  repo: eidos-agi/refactor-forge
+  invocation: skill
+  prerequisites:
+    clone: true
+    pip: false
+  artifacts:
+  - .refactor/fixtures/
+  example: /refactor-capture
+  skills:
+  - refactor-capture: Capture golden fixtures from the original implementation
+  - refactor-port: Port one tool at a time with exact behavioral match
+  - refactor-verify: Replay fixtures against the port, report pass/fail with diffs
+  - refactor-migrate: Full cutover with backup preservation
+- name: improve-forge
+  type: knowledge
+  description: Systematically improve any project — score, prioritize, fix, verify, leave it better
+  repo: eidos-agi/improve-forge
+  invocation: skill
+  prerequisites:
+    clone: true
+    pip: false
+  artifacts: []
+  example: /improve
+  skills:
+  - improve: Score a project across 9 dimensions, fix the highest-impact gap, verify, record
+  - improve-history: View improvement trends over time
+- name: publish-forge
+  type: knowledge
+  description: Editorial orchestration — idea to published post with images, charts, and social derivatives
+  repo: eidos-agi/publish-forge
+  invocation: skill
+  prerequisites:
+    clone: true
+    pip: false
+  artifacts: []
+  example: /publish-blog
+  skills:
+  - publish-blog: Compose brand-forge + image-forge + demo-forge + marketing-forge into a publishable
+      post
+- name: connection-forge
+  type: knowledge
+  description: Vendor integration contract factory — 7-phase lifecycle with per-field confidence scoring
+  repo: eidos-agi/connection-forge
+  invocation: skill
+  prerequisites:
+    clone: true
+    pip: false
+  artifacts:
+  - discovery/
+  - lifecycle/
+  - model/
+  - schema/
+  - templates/
+  example: See GETTING-STARTED.md
+  skills: []
+- name: company-forge
+  type: knowledge
+  description: Company lifecycle operations — entity mapping, cleanup, evidence, correspondence, and closure
+  repo: eidos-agi/company-forge
+  invocation: skill
+  prerequisites:
+    clone: true
+    pip: false
+  artifacts:
+  - docs/
+  - evidence/
+  - templates/
+  example: /company-cleanup Howjadoo LLC
+  skills:
+  - company-map: Build an evidence-backed map of entity facts, accounts, vendors, obligations, and gaps
+  - company-cleanup: Stabilize a stale or messy company file and produce an executable cleanup plan
+  - company-close: Wind down or close an entity across state, tax, bank, vendor, and confirmation surfaces
+  - company-evidence: Create and maintain the company evidence index and archive structure
+  - company-correspondence: Draft precise company cleanup emails, call scripts, and support requests
+- name: textbook-forge
+  type: knowledge
+  description: Make any document read like a professionally typeset textbook — EBW/Ketida design system,
+    distilled
+  repo: eidos-agi/textbook-forge
+  invocation: skill
+  prerequisites:
+    clone: true
+    pip: false
+  artifacts: []
+  example: /textbook-style this report
+  skills:
+  - textbook-style: Apply the textbook design system (5 themes) to any HTML document or artifact
+- name: learning-forge
+  type: knowledge
+  description: Turn experience into improvement — capture learnings, route to projects and forges
+  repo: eidos-agi/learning-forge
+  invocation: skill
+  prerequisites:
+    clone: true
+    pip: false
+  artifacts: []
+  example: /learn
+  skills:
+  - learn: Extract, classify, and route learnings from a session to specific destinations
+  - learn-review: Aggregate learnings across ecosystem, find patterns and repeat offenders
+- name: landfall-forge
+  type: knowledge
+  description: On-the-fly imports for messy data. Agents collect irregular sources, preserve evidence,
+    update durable state, and stop before human-only actions
+  repo: eidos-agi/landfall-forge
+  invocation: cli
+  prerequisites:
+    clone: true
+    pip: true
+  artifacts:
+  - landfalls/
+  - .landfall/runs/
+  example: landfall run relationship-intel --write-report
+  logo: /forges/landfall-logo.png
+  skills:
+  - landfall: Codex wrapper that reads saved landfalls and falls back through forge-forge when none exist
+  - landfall-map: Inventory useful messy-data import rituals and find coverage gaps
+  - landfall-design: Write a saved landfall definition under landfalls/
+  - landfall-run: Execute a landfall and update durable state from fresh evidence
+  - landfall-audit: Check landfall quality, coverage, overlap, and safety
+- name: brutal-forge
+  type: knowledge
+  description: Zero-mercy software quality demolition — 5-angle attack ranked by user pain
+  repo: eidos-agi/brutal-forge
+  invocation: skill
+  prerequisites:
+    clone: true
+    pip: false
+  artifacts:
+  - findings/
+  example: /brutalize
+  skills:
+  - brutalize: Full 5-angle codebase demolition (code, UX, reliability, product, ops)
+  - roast: Line-by-line single-file destruction
+  - compare: Feature gap analysis against competitors
+  - shame-board: Worst findings across all brutalized projects
+- name: loss-forge
+  type: knowledge
+  description: Measurable improvement for AI-operated systems — loss functions + mission scores
+  repo: eidos-agi/loss-forge
+  invocation: skill
+  prerequisites:
+    clone: true
+    pip: false
+  artifacts:
+  - loss.py
+  - LOSS-BASELINE.md
+  - .forge/installed.yaml
+  example: /loss-init
+  skills:
+  - loss-init: Define loss functions and mission scores for any project
+  - loss-check: Before/after comparison — verdict on whether a change helped or hurt
+  - loss-audit: Validate loss function quality, coverage, and gameability
+- name: test-forge
+  type: tool
+  description: RETIRED pointer — use testr. AI testing config + proof memory under .testr/ (not a test
+    runner). Align shipr proof_commands with testr test_commands.
+  repo: eidos-agi/test-forge
+  invocation: cli
+  prerequisites:
+    clone: false
+    pip: false
+  artifacts:
+  - .testr/product-test-model.json
+  example: go install github.com/eidos-agi/testr/cmd/testr@latest && testr model --write --json
+  tools:
+  - testr_model: 'Successor: testr model'
+  - testr_attempt: 'Successor: testr attempt'
+  - testr_frontier: 'Successor: testr frontier'
+  status: retired
+  successor: testr
+  successor_repo: eidos-agi/testr
+- name: book-forge
+  type: tool
+  description: Complete book publishing pipeline — markdown to EPUB/PDF/HTML/audiobook
+  repo: eidos-agi/book-forge
+  invocation: mcp
+  prerequisites:
+    clone: false
+    pip: true
+  artifacts:
+  - build/
+  example: book_build(format='epub')
+  tools:
+  - book_build: Build into EPUB, PDF, HTML, web, audiobook
+  - book_check: Quality checks (broken images, consistency, TODOs)
+  - book_stats: Word counts, reading time, figure index
+  - book_cover: Generate cover artwork + text overlay
+  - book_pipeline_status: Stage completion status
+  - book_pipeline_run: Run, pass/fail/skip, or reset stages
+- name: elt-forge
+  type: tool
+  description: Data pipeline framework — medallion architecture with contracts and audit
+  repo: eidos-agi/elt-forge
+  invocation: mcp
+  prerequisites:
+    clone: false
+    pip: true
+  artifacts: []
+  example: elt_forge(action='add_source')
+  tools:
+  - elt_forge: Stateful workflow engine (add source, scaffold views, validate)
+  - elt_forge_learn: Knowledge base — patterns, profiles, conventions
+  - elt_forge_audit: Pattern compliance audit with grade + findings
+  - elt_forge_remember: Store per-app learnings
+  - elt_forge_recall: Retrieve stored learnings
+  - elt_forge_contract_check: Check contract coverage + violations
+  - elt_forge_contract_generate: Generate contract stubs from YAML
+- name: image-forge
+  type: tool
+  description: AI image generation — concept interviews, generation, editing, book covers
+  repo: eidos-agi/image-forge
+  invocation: mcp
+  prerequisites:
+    clone: false
+    pip: true
+  artifacts: []
+  example: image_generate(prompt='...')
+  tools:
+  - image_concept: Creative briefing — analyze context, propose visual concepts
+  - image_generate: Text-to-image generation
+  - image_edit: Edit existing image with prompt
+  - image_cover: Generate book cover artwork
+- name: underwriting-forge
+  type: tool
+  description: Deal underwriting suite — load to decision with conviction scoring
+  repo: eidos-agi/underwriting-forge
+  invocation: mcp
+  prerequisites:
+    clone: false
+    pip: true
+  artifacts:
+  - deals/
+  example: deal_load(path='deal.yaml')
+  tools:
+  - deal_load: Load deal from YAML + folder
+  - deal_status: Current phase, blockers, findings, conviction
+  - deal_advance: Move to next phase
+  - deal_answer_question: Answer due diligence question
+  - deal_score_conviction: Score conviction (0-10)
+  - deal_compute_model: Build financial model
+  - deal_run_scenarios: Run scenario analysis
+  - deal_set_recommendation: Set final recommendation
+  - deal_write_decision: Write decision memo
+  - deal_generate_xlsx: Generate workbook with all models
+- name: brand-forge
+  type: tool
+  description: Generate every brand asset in one command — OG images, social, banners, print
+  repo: eidos-agi/brand-forge
+  invocation: cli
+  prerequisites:
+    clone: false
+    pip: true
+  artifacts:
+  - brand/
+  example: generate_all
+  tools:
+  - generate_all: Generate all brand assets from definition (CLI)
+- name: video-forge
+  type: tool
+  description: Cinematic brand video production — 11-stage pipeline from intake to deliver
+  repo: eidos-agi/video-forge
+  invocation: skill
+  prerequisites:
+    clone: true
+    pip: false
+  artifacts: []
+  example: (pipeline design only — not yet built)
+  tools: []
+- name: marketing-forge
+  type: tool
+  description: Distribution + measurement — tracked URLs, local SEO, campaign copy
+  repo: eidos-agi/marketing-forge
+  invocation: skill
+  prerequisites:
+    clone: true
+    pip: false
+  artifacts: []
+  example: (thesis stage — not yet built)
+  tools: []
+- name: shipr
+  type: tool
+  description: AI shipping config + release memory. Stores how a product ships under .shipr/ (committed).
+    Does not ship/deploy/run proofs — agents do. Absorbs testr test_commands as proof_commands. Successor
+    of ship-forge methods.
+  repo: eidos-agi/shipr
+  invocation: cli
+  prerequisites:
+    clone: false
+    pip: false
+  artifacts:
+  - .shipr/product-release-model.json
+  - .shipr/release-attempts/
+  example: shipr model --project . --write --json && shipr frontier --project . --json
+  status: active
+  supersedes: ship-forge
+  related:
+  - testr
+  - foss-forge
+  - security-forge
+  - learning-forge
+  - loss-forge
+  tools:
+  - shipr_model: Detect/write product-release-model.json (creates sibling .testr if missing)
+  - shipr_attempt: Record release attempt ledger entry (no execute)
+  - shipr_frontier: Next shipping actions for the AI agent
+  - shipr_store: Marketplace plugin check (stub in Go)
+- name: testr
+  type: tool
+  description: AI testing config + proof memory. Stores how a product is proven under .testr/ (committed).
+    Does not run tests — agents do. Sibling of shipr; shipr prefers testr test_commands as proofs. Successor
+    of retired test-forge.
+  repo: eidos-agi/testr
+  invocation: cli
+  prerequisites:
+    clone: false
+    pip: false
+  artifacts:
+  - .testr/product-test-model.json
+  - .testr/test-attempts/
+  example: testr model --project . --write --json && testr frontier --project . --json
+  status: active
+  supersedes: test-forge
+  related:
+  - shipr
+  tools:
+  - testr_model: Detect/write product-test-model.json (creates sibling .shipr if missing)
+  - testr_attempt: Record test attempt ledger entry (no execute)
+  - testr_frontier: Next test actions for the AI agent

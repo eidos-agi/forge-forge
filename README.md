@@ -10,8 +10,13 @@ Each forge owns a domain:
 - **foss-forge** — how to publish great open-source agentic software
 - **demo-forge** — how to create compelling demo content
 - **security-forge** — how to secure agentic software
-- **test-forge** — how to test effectively
+- **shipr** — AI shipping config + release memory (successor of **ship-forge**)
+- **testr** — AI testing config + proof memory (successor of **test-forge**)
 - **forge-forge** — how to create and manage forges (this repo)
+
+Retired pointers still listed in `registry.yaml` with `status: retired` and a `successor`:
+- **ship-forge** → **shipr**
+- **test-forge** → **testr**
 
 ## The Forge Standard
 

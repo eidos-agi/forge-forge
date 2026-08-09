@@ -26,7 +26,7 @@ repo:
     require_pr: false                   # Require PR for merge (false for solo devs)
     required_checks: []                 # CI check names that must pass
 
-# --- packaging (enforced by ship-forge) ---
+# --- packaging (enforced by shipr; methods from retired ship-forge) ---
 # Python package configuration
 packaging:
   build_system: hatchling               # hatchling | setuptools
@@ -41,7 +41,7 @@ packaging:
   readme:
     absolute_images: true               # All images must use absolute URLs
 
-# --- quality (enforced by foss-forge + ship-forge) ---
+# --- quality (enforced by foss-forge + shipr) ---
 # Required standards and files
 quality:
   required_files:
@@ -63,7 +63,7 @@ security:
   git_history_scan: true                # Check git history for past secrets
   agentic_threat_model: false           # Run STRIDE-A (opt-in, heavier)
 
-# --- deployment (enforced by ship-forge) ---
+# --- deployment (enforced by shipr; methods from retired ship-forge) ---
 # Only for deployable services, not libraries/CLIs
 deployment:
   platform: railway | none              # Where this deploys
@@ -72,7 +72,7 @@ deployment:
   env_documented: true                  # .env.example must exist
   graceful_shutdown: true               # Must handle SIGTERM
 
-# --- dependencies (enforced by ship-forge) ---
+# --- dependencies (enforced by shipr; methods from retired ship-forge) ---
 dependencies:
   max_count: 5                          # Max direct runtime deps
   banned:                               # Never allow these
@@ -82,7 +82,7 @@ dependencies:
     - pandas
     - torch
 
-# --- ci (enforced by ship-forge) ---
+# --- ci (enforced by shipr; methods from retired ship-forge) ---
 ci:
   workflows:
     ci: true                            # CI workflow must exist

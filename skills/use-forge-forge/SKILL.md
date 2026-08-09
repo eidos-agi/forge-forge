@@ -50,3 +50,14 @@ If Codex has MCP tools available, prefer:
 ## Boundary
 
 Forge-Forge is the progressive-reveal doorway for forge knowledge. It is not a replacement for reading the target forge repo when exact behavior matters.
+
+## Shipping / testing operators (2026-08)
+
+Do not route new work to **ship-forge** or **test-forge**.
+
+| Need | Product | Install |
+|------|---------|---------|
+| How does this product ship? | **shipr** | `go install github.com/eidos-agi/shipr/cmd/shipr@latest` |
+| How is this product proven? | **testr** | `go install github.com/eidos-agi/testr/cmd/testr@latest` |
+
+Both write committed `.shipr/` / `.testr/` config (not gitignored). shipr absorbs testr `test_commands` as `proof_commands`.

@@ -61,8 +61,14 @@ _SYNONYMS: dict[str, list[str]] = {
     "image": ["image", "generation"],
     "images": ["image", "generation"],
     "generate": ["generation", "generate"],
-    "deploy": ["deploy", "railway", "shipping"],
-    "release": ["release", "pypi", "foss"],
+    "deploy": ["deploy", "railway", "shipping", "shipr"],
+    "release": ["release", "pypi", "foss", "shipr", "shipping"],
+    "ship": ["shipr", "shipping", "release", "deploy"],
+    "shipping": ["shipr", "release", "deploy"],
+    "proof": ["testr", "test", "proof", "shipr"],
+    "prove": ["testr", "test", "proof"],
+    "test": ["testr", "test", "pytest", "proof"],
+    "testing": ["testr", "test", "proof"],
     "migrate": ["refactor", "migration", "port"],
     "rewrite": ["refactor", "port", "migration"],
     "meal": ["shopping", "meal", "grocery"],
@@ -84,7 +90,16 @@ def _tokenize(text: str) -> set[str]:
 
 
 def _build_forge_tokens(forge: dict) -> set[str]:
-    parts = [forge.get("name", ""), forge.get("description", "")]
+    parts = [
+        forge.get("name", ""),
+        forge.get("description", ""),
+        str(forge.get("status", "")),
+        str(forge.get("successor", "")),
+        str(forge.get("successor_repo", "")),
+        str(forge.get("supersedes", "")),
+    ]
+    for rel in forge.get("related", []) or []:
+        parts.append(str(rel))
     for skill in forge.get("skills", []):
         if isinstance(skill, dict):
             for k, v in skill.items():
@@ -110,6 +125,11 @@ def _score(query_tokens: set[str], forge: dict) -> float:
     name_tokens = _tokenize(forge.get("name", ""))
     name_hits = query_tokens & name_tokens
     score = (len(overlap) + len(name_hits)) / len(query_tokens)
+    # Prefer active operators over retired pointer forges.
+    if forge.get("status") == "retired":
+        score *= 0.35
+    elif forge.get("status") == "active" or forge.get("name") in {"shipr", "testr"}:
+        score = min(score * 1.15, 1.0)
     return min(score, 1.0)
 
 
@@ -120,6 +140,16 @@ def _format_forge(forge: dict, score: float | None = None) -> dict:
         "description": forge.get("description"),
         "repo": forge.get("repo"),
     }
+    if forge.get("status"):
+        result["status"] = forge["status"]
+    if forge.get("successor"):
+        result["successor"] = forge["successor"]
+    if forge.get("successor_repo"):
+        result["successor_repo"] = forge["successor_repo"]
+    if forge.get("supersedes"):
+        result["supersedes"] = forge["supersedes"]
+    if forge.get("related"):
+        result["related"] = forge["related"]
     if forge.get("skills"):
         result["skills"] = forge["skills"]
     if forge.get("tools"):
@@ -211,13 +241,24 @@ def get_forge_how(name: str) -> dict:
     forge_name = forge.get("name", "")
 
     steps = []
-    if invocation == "skill" and clone_needed:
+    successor = forge.get("successor")
+    successor_repo = forge.get("successor_repo") or ""
+    if forge.get("status") == "retired" and successor:
+        steps.append(f"RETIRED: use successor `{successor}` ({successor_repo or 'see registry'}) instead of {forge_name}.")
+        if successor in ("shipr", "testr"):
+            steps.append(f"Install: go install github.com/eidos-agi/{successor}/cmd/{successor}@latest")
+        steps.append(f"Then: {example}")
+    elif invocation == "skill" and clone_needed:
         steps.append(f"Clone: gh repo clone {repo} ~/repos-eidos-agi/{forge_name}")
         steps.append(f"In your project, tell Claude Code: {example}")
     elif invocation == "mcp" and pip_needed:
         steps.append(f"Install: pip install {forge_name}")
         steps.append(f"Or add as MCP: claude mcp add {forge_name}")
         steps.append(f"Then use: {example}")
+    elif invocation == "cli" and forge_name in ("shipr", "testr"):
+        steps.append(f"Install: go install github.com/eidos-agi/{forge_name}/cmd/{forge_name}@latest")
+        steps.append(f"Run: {example}")
+        steps.append("Configs .shipr/ and .testr/ are committed product state (not gitignored).")
     elif invocation == "cli" and pip_needed:
         steps.append(f"Install: pip install {forge_name}")
         steps.append(f"Run: {example}")
@@ -235,6 +276,14 @@ def get_forge_how(name: str) -> dict:
         "example": example,
         "quick_start": quick_start,
     }
+    if forge.get("status"):
+        result["status"] = forge["status"]
+    if forge.get("successor"):
+        result["successor"] = forge["successor"]
+    if forge.get("successor_repo"):
+        result["successor_repo"] = forge["successor_repo"]
+    if forge.get("supersedes"):
+        result["supersedes"] = forge["supersedes"]
     if forge.get("skills"):
         result["skills"] = forge["skills"]
     if forge.get("tools"):
@@ -255,6 +304,9 @@ def recommend_for_project(path: str = ".", description: str = "") -> dict:
         "has_mcp": False,
         "has_loss": (p / "LOSS-BASELINE.md").exists(),
         "has_forge_provenance": (p / ".forge" / "installed.yaml").exists(),
+        "has_shipr": (p / ".shipr" / "product-release-model.json").exists(),
+        "has_testr": (p / ".testr" / "product-test-model.json").exists(),
+        "has_go_mod": (p / "go.mod").exists(),
     }
 
     mcp_signal_paths = [
@@ -303,16 +355,36 @@ def recommend_for_project(path: str = ".", description: str = "") -> dict:
     if signals["has_license"]:
         _rec("foss-forge", "Public repo — ensure community health files")
         _rec("security-forge", "Public repo — audit for secrets and vulnerabilities")
-    if signals["has_pyproject"]:
-        _rec("ship-forge", "Has pyproject.toml — shipping standards, CI, release pipeline")
-    if signals["has_mcp"]:
-        _rec("ship-forge", "MCP server — run ship-qa for schema/behavior testing")
-    if not signals["has_tests"]:
-        _rec("test-forge", "No tests/ directory found")
+    softwareish = bool(
+        signals.get("has_pyproject")
+        or signals.get("has_go_mod")
+        or signals.get("has_ci")
+        or signals.get("has_tests")
+        or signals.get("has_mcp")
+    )
+    if softwareish:
+        _rec(
+            "shipr",
+            "Ship with shipr (AI shipping config under .shipr/) — successor of ship-forge methods",
+        )
+        _rec(
+            "testr",
+            "Prove with testr (AI test config under .testr/) — successor of retired test-forge",
+        )
+    if signals.get("has_mcp"):
+        _rec("shipr", "MCP/server product — record proofs via shipr; methods in shipr/docs/methods/")
+    if not signals.get("has_tests") and not softwareish:
+        _rec("testr", "No tests/ directory — define product test gates with testr")
+    if signals.get("has_shipr") and not signals.get("has_testr"):
+        _rec("testr", "Has .shipr/ but no .testr/ — write testr model so shipr can absorb proofs")
+    if signals.get("has_testr") and not signals.get("has_shipr"):
+        _rec("shipr", "Has .testr/ but no .shipr/ — write shipr model (absorbs test_commands)")
 
     _opt("brutal-forge", "Zero-mercy code quality review")
     _opt("demo-forge", "Generate demo content (GIFs, screenshots)")
     _opt("learning-forge", "Capture and route learnings from sessions")
+    _opt("ship-forge", "Historical shipping skills only — use shipr for all new work")
+    _opt("test-forge", "Retired — use testr")
 
     seen = set()
     deduped = []
