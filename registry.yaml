@@ -505,3 +505,22 @@ forges:
   - testr_model: Detect/write product-test-model.json (creates sibling .shipr if missing)
   - testr_attempt: Record test attempt ledger entry (no execute)
   - testr_frontier: Next test actions for the AI agent
+- name: doctor-forge
+  type: knowledge
+  description: The exam method for shipped products. Slim health, deep exam, bin/<app>
+    doctor, score /100, unproven is a fail. Deck doctor is the oracle. Not doctor-md.
+  repo: eidos-agi/doctor-forge
+  invocation: skill
+  prerequisites:
+    clone: true
+    pip: false
+  artifacts:
+  - bin/<app> doctor
+  example: /doctor
+  related:
+  - testr
+  - shipr
+  skills:
+  - doctor: The exam method (slim + deep, score /100, perfect fixture)
+  - doctor-add: Put a doctor on a shipped product
+  - doctor-run: Exam live instances and record the score

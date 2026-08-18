@@ -13,6 +13,7 @@ Each forge owns a domain:
 - **shipr** — AI shipping config + release memory (successor of **ship-forge**)
 - **testr** — AI testing config + proof memory (successor of **test-forge**)
 - **forge-forge** — how to create and manage forges (this repo)
+- **doctor-forge** — the exam method for shipped products (Deck doctor is the oracle)
 
 Retired pointers still listed in `registry.yaml` with `status: retired` and a `successor`:
 - **ship-forge** → **shipr**
