@@ -53,3 +53,4 @@ Every forge has the "no software" guardrail. Every forge has a vision. Every for
 - **shipr** — AI shipping config + release memory (`.shipr/`); methods absorbed from retired **ship-forge**
 - **testr** — AI testing config + proof memory (`.testr/`); successor of retired **test-forge**
 - **ship-forge** / **test-forge** — retired registry pointers only
+- **story-forge** — storytelling validation harness; listeners are the reward

@@ -14,6 +14,7 @@ Each forge owns a domain:
 - **testr** — AI testing config + proof memory (successor of **test-forge**)
 - **forge-forge** — how to create and manage forges (this repo)
 - **doctor-forge** — the exam method for shipped products (Deck doctor is the oracle)
+- **story-forge** — the harness for storytelling and validation (listeners, not model taste)
 
 Retired pointers still listed in `registry.yaml` with `status: retired` and a `successor`:
 - **ship-forge** → **shipr**

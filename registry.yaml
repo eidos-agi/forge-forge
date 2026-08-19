@@ -524,3 +524,28 @@ forges:
   - doctor: The exam method (slim + deep, score /100, perfect fixture)
   - doctor-add: Put a doctor on a shipped product
   - doctor-run: Exam live instances and record the score
+- name: story-forge
+  type: knowledge
+  description: The harness for storytelling and validation. Capture beats, panel
+    listeners, rewrite one beat, pass only when new humans retell. Model taste
+    is not proof. Not a novel generator.
+  repo: eidos-agi/story-forge
+  invocation: skill
+  prerequisites:
+    clone: true
+    pip: false
+  artifacts:
+  - .story/tellings/
+  - .story/panels/
+  - .story/rewrites/
+  - .story/runs/
+  example: /story
+  related:
+  - doctor-forge
+  - testr
+  - shipr
+  - brutal-forge
+  skills:
+  - story: The harness method (listener-trace, retelling first, unproven is a fail)
+  - story-add: Put .story/ on a project and write the first telling
+  - story-run: Prove a rewrite with new listeners and record the run
