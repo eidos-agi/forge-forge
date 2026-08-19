@@ -421,6 +421,29 @@ forges:
   - deal_set_recommendation: Set final recommendation
   - deal_write_decision: Write decision memo
   - deal_generate_xlsx: Generate workbook with all models
+- name: domain-forge
+  type: tool
+  description: Generate alternative domains, score how much people will love them, and check
+    RDAP availability. Does not register. CLI alias eidos-domains.
+  repo: eidos-agi/domain-forge
+  invocation: cli
+  prerequisites:
+    clone: false
+    pip: true
+  artifacts: []
+  example: domain-forge run "eidos" --json
+  related:
+  - brand-forge
+  - cli-forge
+  - foss-forge
+  tools:
+  - domain_forge_run: Generate, love-score, and check availability
+  - domain_forge_suggest: Generate and score, no network
+  - domain_forge_score: Love-score known domains
+  - domain_forge_check: RDAP availability
+  - domain_forge_doctor: Runtime health
+  skills:
+  - domain-forge: Agent playbook for the CLI
 - name: brand-forge
   type: tool
   description: Generate every brand asset in one command — OG images, social, banners, print
