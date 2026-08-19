@@ -545,7 +545,9 @@ forges:
   - testr
   - shipr
   - brutal-forge
+  - prim.obf
   skills:
   - story: The harness method (listener-trace, retelling first, unproven is a fail)
   - story-add: Put .story/ on a project and write the first telling
   - story-run: Prove a rewrite with new listeners and record the run
+  - story-obf: Bind the harness to an OBF picture-book pack (book.json is authority)
