@@ -486,6 +486,27 @@ forges:
   - music-forge-verify: Prove a file's head and tail are almost silent
   skills:
   - music-forge: Agent playbook — never cut into music
+- name: video-3d-forge
+  type: tool
+  description: Cinematic 3D bumpers as Prim Tools — prim.scene is the beat, prim.video is the collection
+  repo: eidos-agi/video-3d-forge
+  invocation: cli
+  prerequisites:
+    clone: true
+    pip: false
+  artifacts: []
+  example: node bin/capture.mjs path/to/prim.scene --preview
+  related:
+  - video-forge
+  - 3d-forge
+  - music-forge
+  - prim.scene
+  - prim.video
+  tools:
+  - capture: Seekable Three.js capture of a prim.scene pack
+  - assemble: Concat cited scene renders in prim.video order
+  skills:
+  - video-3d-forge: Agent playbook — the scene is the file
 - name: marketing-forge
   type: tool
   description: Distribution + measurement — tracked URLs, local SEO, campaign copy
