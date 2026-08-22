@@ -468,6 +468,24 @@ forges:
   artifacts: []
   example: (pipeline design only — not yet built)
   tools: []
+- name: music-forge
+  type: tool
+  description: Cut songs out of a recording without cutting into the music — almost silent before you trim
+  repo: eidos-agi/music-forge
+  invocation: cli
+  prerequisites:
+    clone: true
+    pip: false
+  artifacts: []
+  example: music-forge split recording.mp4 -o out --names "track 1,track 2"
+  related:
+  - video-forge
+  - brand-forge
+  tools:
+  - music-forge-split: Detect silence valleys and write named tracks
+  - music-forge-verify: Prove a file's head and tail are almost silent
+  skills:
+  - music-forge: Agent playbook — never cut into music
 - name: marketing-forge
   type: tool
   description: Distribution + measurement — tracked URLs, local SEO, campaign copy
